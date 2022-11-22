@@ -12,7 +12,7 @@ pub fn print() {
     let nx : i32 = 200;
     let ny : i32 = 100;
     match file.write_all(format!("P3\n{nx} {ny}\n255\n").as_bytes()){
-        Err(why) => panic!("no se pudo escribir a {display}: {why}"),
+        Err(why) => panic!("no se pudo escribir a {}: {}", display, why),
         _ => (),
     }
     for j in (0..ny).rev() {
@@ -24,7 +24,7 @@ pub fn print() {
             let ig : i32 = (255.99 * g).round() as i32;
             let ib : i32 = (255.99 * b).round() as i32;
             match file.write_all(format!("{ir} {ig} {ib}\n").as_bytes()){
-                Err(why) => panic!("no se pudo escribir a {display}: {why}"),
+                Err(why) => panic!("no se pudo escribir a {}: {}", display, why),
                 _ => (),
             }
         }
