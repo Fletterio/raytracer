@@ -1,4 +1,4 @@
-use std::ops::{AddAssign, DivAssign, Index, IndexMut, MulAssign, Neg, SubAssign};
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg, Index, IndexMut};
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct Vec3 {
     e: [f32; 3],
@@ -57,3 +57,20 @@ impl IndexMut<usize> for Vec3 {
         &mut self.e[index]
     }
 }
+
+impl Add for Vec3 {
+    type Output = Self;
+
+    fn add(self, other : Self) -> Self{
+        Self{e : [self.e[0] + other.e[0], self.e[1] + other.e[1], self.e[2] + other.e[2]]}
+    }
+}
+
+impl AddAssign for Vec3 {
+    fn add_assign(&mut self, other : Self) {
+        self.e[0] += other.e[0];
+        self.e[1] += other.e[1];
+        self.e[2] += other.e[2];
+    }
+}
+
