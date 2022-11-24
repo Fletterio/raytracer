@@ -110,3 +110,4 @@ impl DivAssign for Vec3 {
         self.e[2] /= other.e[3];
     }
 }
+
