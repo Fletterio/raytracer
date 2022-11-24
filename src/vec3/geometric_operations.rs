@@ -19,6 +19,10 @@ impl Vec3{
     pub fn len(self) -> f32{
         return f32::sqrt(Self::dot(self, self));
     }
+
+    pub fn sq_len(self) -> f32{
+        return Self::dot(self,self);
+    }
 }
 
 
