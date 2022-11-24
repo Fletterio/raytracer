@@ -1,3 +1,5 @@
+//This module contains usual binary operations on Vectors (mostly addition/subtraction and indexing, product and division as implemented here are useful only for colour)
+
 use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
 };
