@@ -1,3 +1,5 @@
+//refactor: methods move their arguments. Implement Copy trait
+
 use super::Vec3;
 use std::ops::Mul;
 
