@@ -1,5 +1,5 @@
-use vec3::Vec3;
-use ray::Ray;
+use crate::vec3::Vec3;
+use crate::ray::Ray;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
