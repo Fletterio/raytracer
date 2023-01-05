@@ -4,8 +4,8 @@ use crate::ray::Ray;
 
 
 pub struct Sphere {
-    centre : Vec3,
-    radius : f32,
+    pub centre : Vec3,
+    pub radius : f32,
 }
 
 //constructors

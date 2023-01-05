@@ -20,21 +20,37 @@ fn color(r : &Ray, world : &impl Hitable) -> Vec3 {
 }
 
 pub fn print() {
-    let path = Path::new("images/many_spheres.pmm");
+    let path = Path::new("images/many_spheres.ppm");
     let display = path.display();
     let mut file = match File::create(&path) {  
-        Err(why) => panic!("couldn't create {display} : {why}"),
+        Err(why) => panic!("couldn't create {} : {}", display, why),
         Ok(file) => file,
     };
     let nx : i32 = 200;
     let ny : i32 = 100;
     if let Err(why) = file.write_all(format!("P3\n{nx} {ny}\n255\n").as_bytes()){
-        panic!("couldn't write to {display} : {why}");
+        panic!("couldn't write to {} : {}", display, why);
     }
     let lower_left_corner = Vec3::new(-2f32, -1f32, -1f32);
     let horizontal = Vec3::new(4f32, 0f32, 0f32);
     let vertical = Vec3::new(0f32, 2f32, 0f32);
     let origin = Vec3::new(0f32, 0f32, 0f32);
-    let list = vec![&Sphere::new(Vec3::new(0f32, 0f32, -1f32), 0.5f32), &Sphere::new(Vec3::new(0f32, -100.5f32, -1f32), 100f32)];
-
+    let list : Vec<Box<dyn Hitable>> = vec![Box::new(Sphere::new(Vec3::new(0f32, -100.5f32, -1f32), 100f32)), Box::new(Sphere::new(Vec3::new(0f32, 0f32, -1f32), 0.5f32))];
+    let world = &HitableList::new(list);
+    for j in (0..ny).rev() {
+        for i in 0..nx {
+            let u = i as f32 / nx as f32;
+            let v = j as f32 / ny as f32;
+            let r = Ray::new(origin, lower_left_corner + u * horizontal + v * vertical);
+            
+            let col = color(&r, world);
+            let ir = (255f32 * col.r()).round() as i32;
+            let ig = (255f32 * col.g()).round() as i32;
+            let ib = (255f32 * col.b()).round() as i32;
+            if let Err(why) = file.write_all(format!("{} {} {}\n", ir, ig, ib).as_bytes()){
+                panic!("couldn't write to {} : {}", display, why);
+            }
+            
+        }
+    }
 }
