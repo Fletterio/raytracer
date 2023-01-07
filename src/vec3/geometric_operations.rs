@@ -1,5 +1,5 @@
 use super::Vec3;
-use std::ops::Mul;
+use std::ops::{Mul, Div, MulAssign, DivAssign};
 
 impl Vec3{
     pub fn dot(v1 : &Self, v2 : &Self) -> f32 {
@@ -31,7 +31,33 @@ impl Vec3{
 impl Mul<Vec3> for f32 {
     type Output = Vec3;
 
-    fn mul(self, vec : Vec3) -> Vec3{
-        Vec3 {e : [vec[0] * self, vec[1] * self, vec[2] * self],}
+    fn mul(self, v : Vec3) -> Vec3{
+        Vec3 {e : [v[0] * self, v[1] * self, v[2] * self],}
+    }
+}
+
+impl Div<f32> for Vec3 {
+    type Output = Self;
+
+    fn div(self, f : f32) -> Vec3 {
+        Vec3 {e : [self[0] / f, self[1] / f, self[2] / f],}
+    }
+}
+
+//same as before but on assign
+
+impl MulAssign<f32> for Vec3 {
+    fn mul_assign(&mut self, f : f32){
+        self.e[0] *= f;
+        self.e[1] *= f;
+        self.e[2] *= f;
+    }
+}
+
+impl DivAssign<f32> for Vec3 {
+    fn div_assign(&mut self, f : f32){
+        self.e[0] /= f;
+        self.e[1] /= f;
+        self.e[2] /= f;
     }
 }

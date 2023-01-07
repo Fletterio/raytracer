@@ -5,6 +5,8 @@ use std::path::Path;
 use crate::hitable::{Hitable, sphere::Sphere, hitable_list::HitableList};
 use crate::vec3::Vec3;
 use crate::ray::Ray;
+use crate::camera::Camera;
+use rand::distributions::{Distribution, Uniform};
 
 
 fn color(r : &Ray, world : &impl Hitable) -> Vec3 {
@@ -28,6 +30,7 @@ pub fn print() {
     };
     let nx : i32 = 200;
     let ny : i32 = 100;
+    let ns : i32 = 100; //samples
     if let Err(why) = file.write_all(format!("P3\n{nx} {ny}\n255\n").as_bytes()){
         panic!("couldn't write to {} : {}", display, why);
     }
@@ -35,15 +38,21 @@ pub fn print() {
     let horizontal = Vec3::new(4f32, 0f32, 0f32);
     let vertical = Vec3::new(0f32, 2f32, 0f32);
     let origin = Vec3::new(0f32, 0f32, 0f32);
+    let cam = Camera::new(lower_left_corner, horizontal, vertical, origin);
     let list : Vec<Box<dyn Hitable>> = vec![Box::new(Sphere::new(Vec3::new(0f32, -100.5f32, -1f32), 100f32)), Box::new(Sphere::new(Vec3::new(0f32, 0f32, -1f32), 0.5f32))];
     let world = &HitableList::new(list);
+    let uniform = Uniform::from(0f32..1f32);
+    let mut rng = rand::thread_rng();       //rng generation
     for j in (0..ny).rev() {
         for i in 0..nx {
-            let u = i as f32 / nx as f32;
-            let v = j as f32 / ny as f32;
-            let r = Ray::new(origin, lower_left_corner + u * horizontal + v * vertical);
-            
-            let col = color(&r, world);
+            let mut col = Vec3::new(0f32, 0f32, 0f32);
+            for s in 0..ns {
+               let u = (i as f32 + uniform.sample(&mut rng)) / nx as f32;
+               let v = (j as f32 + uniform.sample(&mut rng)) / ny as f32;
+               let r = cam.get_ray(u,v);
+               col += color(&r,world);
+            }
+            col /= ns as f32;
             let ir = (255f32 * col.r()).round() as i32;
             let ig = (255f32 * col.g()).round() as i32;
             let ib = (255f32 * col.b()).round() as i32;
