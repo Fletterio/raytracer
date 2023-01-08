@@ -5,7 +5,7 @@ mod image_gen;
 mod camera;
 
 fn main(){
-  image_gen::many_spheres::print();      
+  image_gen::matte_spheres::print();      
 }
 
 

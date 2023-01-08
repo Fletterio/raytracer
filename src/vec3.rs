@@ -15,22 +15,22 @@ impl Vec3 {
 
 //getters
 impl Vec3 {
-    pub fn x(&self) -> &f32 {
-        &self.e[0]
+    pub fn x(&self) -> f32 {
+        self.e[0]
     }
-    pub fn y(&self) -> &f32 {
-        &self.e[1]
+    pub fn y(&self) -> f32 {
+        self.e[1]
     }
-    pub fn z(&self) -> &f32 {
-        &self.e[2]
+    pub fn z(&self) -> f32 {
+        self.e[2]
     }
-    pub fn r(&self) -> &f32 {
-        &self.e[0]
+    pub fn r(&self) -> f32 {
+        self.e[0]
     }
-    pub fn g(&self) -> &f32 {
-        &self.e[1]
+    pub fn g(&self) -> f32 {
+        self.e[1]
     }
-    pub fn b(&self) -> &f32 {
-        &self.e[2]
+    pub fn b(&self) -> f32 {
+        self.e[2]
     }
 }
