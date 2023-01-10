@@ -1,5 +1,7 @@
-use super::{Hitable, HitRecord};
+use super::{Hitable, HitRecord, material::{Material, lambertian::Lambertian}};
 use crate::ray::Ray;
+use crate::vec3::Vec3;
+use std::rc::Rc;
 
 pub struct HitableList <'a> {
     pub list : Vec<Box<dyn Hitable + 'a>>
@@ -16,16 +18,19 @@ impl <'a> HitableList <'a> {
 //Hitable Lists are Hitable
 
 impl <'a> Hitable for HitableList<'a> {
-    fn hit(&self, r : &Ray, t_min : f32, t_max : f32) -> HitRecord {
-        let mut hit_record = HitRecord {hit : false, t : 0f32, p : r.origin, normal : r.origin};
+    fn hit(&self, r : &Ray, t_min : f32, t_max : f32) -> Option<HitRecord>{
+        let mut actual_hit_record : Option<HitRecord> = None;
         let mut closest_so_far = t_max;
-        for hitable in self.list.iter() {
-            let temp_hit_record = hitable.hit(r, t_min, closest_so_far);
-            if temp_hit_record.hit {
-                closest_so_far = temp_hit_record.t;
-                hit_record = temp_hit_record;
+        for hitable in self.list.iter(){
+            if let Some(hit_record) = hitable.hit(r, t_min, closest_so_far) {
+                //rec.t = hit_record.t;
+                //rec.p = hit_record.p;
+                //rec.normal = hit_record.normal;
+                //rec.material = Rc::clone(&hit_record.material);
+                closest_so_far = hit_record.t;
+                actual_hit_record = Some(hit_record);
             }
         }
-        return hit_record;
+        return actual_hit_record;
     }
 }

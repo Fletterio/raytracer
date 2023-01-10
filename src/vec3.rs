@@ -1,7 +1,7 @@
 pub mod operations;
 pub mod geometric_operations;
 
-#[derive(Copy, Clone, PartialEq, Debug)]
+#[derive(Copy, Clone, PartialEq, Debug, Default)]
 pub struct Vec3 {
    pub e: [f32; 3],
 }
@@ -32,5 +32,12 @@ impl Vec3 {
     }
     pub fn b(&self) -> f32 {
         self.e[2]
+    }
+}
+
+//colour functions
+impl Vec3 {
+    pub fn gamma_correct(&mut self, alpha : f32) {
+        self.e = [self.e[0].powf(alpha), self.e[1].powf(alpha), self.e[2].powf(alpha)];
     }
 }

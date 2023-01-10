@@ -4,8 +4,6 @@ mod hitable;
 mod image_gen;
 mod camera;
 
-fn main(){
-  image_gen::matte_spheres::print();      
+fn main() {
+    image_gen::metal_spheres::print();
 }
-
-

@@ -75,7 +75,7 @@ impl Mul for Vec3 {
             e: [
                 self.e[0] * other.e[0],
                 self.e[1] * other.e[1],
-                self.e[2] * other.e[3],
+                self.e[2] * other.e[2],
             ],
         }
     }

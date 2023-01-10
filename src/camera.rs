@@ -14,6 +14,10 @@ impl Camera {
     pub fn new(llc : Vec3, h : Vec3, v : Vec3, o : Vec3) -> Camera {
         Camera {origin : o, lower_left_corner : llc, horizontal : h, vertical : v}
     }
+    //default for our 200x100 small images
+    pub fn default() -> Camera {
+        Self::new(Vec3::new(-2.0, -1.0, -1.0), Vec3::new(4.0, 0.0, 0.0), Vec3::new(0.0, 2.0, 0.0), Vec3::new(0.0, 0.0, 0.0))
+    }
 }
 
 //methods
