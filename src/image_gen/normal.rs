@@ -1,5 +1,6 @@
 use crate::rtweekend::*;
 use std::fs::File;
+use std::fs;
 use std::io::prelude::*;
 use std::io::{stdout, Write};
 use crate::hitable::{Hitable, sphere::Sphere, hitable_list::HitableList, material::{Material, lambertian::Lambertian}};
@@ -41,11 +42,14 @@ pub fn print() -> std::io::Result<()>{
     
     let cam = Camera::default();
 
-    //Render
+    //Create folder, file, and add formatting info
+    fs::create_dir_all("images/")?;
 
     let mut file = File::create("images/normal.ppm")?;
     file.write_all(format!("P3\n{} {}\n255\n", IMAGE_WIDTH, IMAGE_HEIGHT).as_bytes())?;
     
+    //Render
+
     for j in (0..IMAGE_HEIGHT).rev() {
         //show render progress on terminal
         print!("\rScanlines remaining: {}", j);
