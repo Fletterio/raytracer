@@ -13,13 +13,13 @@ fn random_in_unit_sphere() -> Vec3 {
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct Lambertian {
-    pub albedo : Vec3,
+    pub albedo : Color, 
 }
 
 //constructors
 
 impl Lambertian {
-    pub fn new(a : Vec3) -> Lambertian {
+    pub fn new(a : Color) -> Lambertian {
         Lambertian {albedo : a}
     }
 }
@@ -28,7 +28,7 @@ impl Lambertian {
 
 
 impl Material for Lambertian {
-    fn scatter(&self, r_in : &Ray, rec : &HitRecord) -> Option<(Vec3, Ray)> {
+    fn scatter(&self, r_in : &Ray, rec : &HitRecord) -> Option<(Color, Ray)> {
         let target = rec.p + rec.normal + random_in_unit_sphere();
         let scattered = Ray::new(rec.p, target - rec.p);
         return Some((self.albedo, scattered));

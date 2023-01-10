@@ -1,6 +1,7 @@
 use crate::vec3::Vec3;
 use crate::hitable::{HitRecord, material::Material};
 use crate::ray::Ray;
+use super::reflect;
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct Metal {
@@ -13,10 +14,6 @@ impl Metal {
     pub fn new(a : Vec3) -> Metal{
         Metal {albedo : a}
     }
-}
-
-fn reflect(v : &Vec3, n : &Vec3) -> Vec3 {
-    *v - 2f32 * Vec3::dot(v,n) * *n
 }
 
 impl Material for Metal {

@@ -1,5 +1,8 @@
 pub mod operations;
 pub mod geometric_operations;
+pub mod color;
+
+use std::fmt;
 
 #[derive(Copy, Clone, PartialEq, Debug, Default)]
 pub struct Vec3 {
@@ -41,3 +44,18 @@ impl Vec3 {
         self.e = [self.e[0].powf(alpha), self.e[1].powf(alpha), self.e[2].powf(alpha)];
     }
 }
+
+//type aliases
+
+pub type Point3 = Vec3;
+pub type Color = Vec3;
+
+//printing
+
+impl fmt::Display for Vec3 {
+    fn fmt(&self, f : &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} {} {}", self.e[0], self.e[1], self.e[2])
+    }
+}
+
+

@@ -1,23 +1,35 @@
 use super::{Hitable, HitRecord, material::{Material, lambertian::Lambertian}};
-use crate::ray::Ray;
-use crate::vec3::Vec3;
+use crate::rtweekend::{Vec3, Point3, Ray};
 use std::rc::Rc;
 
-pub struct HitableList <'a> {
-    pub list : Vec<Box<dyn Hitable + 'a>>
+pub struct HitableList {
+    pub list : Vec<Rc<dyn Hitable>>
 }
 
 //constructors
 
-impl <'a> HitableList <'a> {
-    pub fn new (l : Vec<Box<dyn Hitable + 'a>>) -> HitableList<'a> {
+impl HitableList {
+    pub fn new (l : Vec<Rc<dyn Hitable>>) -> HitableList {
         HitableList {list : l}
+    }
+}
+
+//methods
+impl HitableList {
+    //add objects to list
+    pub fn add(&mut self, object : Rc<dyn Hitable>) {
+        self.list.push(object);
+    }
+
+    //clear the list
+    pub fn clear(&mut self) {
+        self.list.clear();
     }
 }
 
 //Hitable Lists are Hitable
 
-impl <'a> Hitable for HitableList<'a> {
+impl Hitable for HitableList {
     fn hit(&self, r : &Ray, t_min : f32, t_max : f32) -> Option<HitRecord>{
         let mut actual_hit_record : Option<HitRecord> = None;
         let mut closest_so_far = t_max;

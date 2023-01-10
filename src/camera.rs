@@ -1,8 +1,7 @@
-use crate::ray::Ray;
-use crate::vec3::Vec3;
+use crate::rtweekend::{Vec3, Point3, Ray};
 
 pub struct Camera {
-    pub origin : Vec3,
+    pub origin : Point3,
     pub lower_left_corner : Vec3,
     pub horizontal : Vec3,
     pub vertical : Vec3,
@@ -14,9 +13,18 @@ impl Camera {
     pub fn new(llc : Vec3, h : Vec3, v : Vec3, o : Vec3) -> Camera {
         Camera {origin : o, lower_left_corner : llc, horizontal : h, vertical : v}
     }
-    //default for our 200x100 small images
+    //default for our project
     pub fn default() -> Camera {
-        Self::new(Vec3::new(-2.0, -1.0, -1.0), Vec3::new(4.0, 0.0, 0.0), Vec3::new(0.0, 2.0, 0.0), Vec3::new(0.0, 0.0, 0.0))
+        let aspect_ratio = 16.0 / 9.0;
+        let viewport_height = 2.0;
+        let viewport_width = aspect_ratio * viewport_height;
+        let focal_length = 1.0;
+
+        let origin = Point3::new(0.0, 0.0, 0.0);
+        let horizontal = Vec3::new(viewport_width, 0.0, 0.0);
+        let vertical = Vec3::new(0.0, viewport_height, 0.0);
+        let lower_left_corner = origin - 0.5 * horizontal - 0.5 * vertical - Vec3::new(0.0, 0.0, focal_length);
+        return Self::new(lower_left_corner, horizontal, vertical, origin);
     }
 }
 

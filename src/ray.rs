@@ -1,9 +1,9 @@
-use crate::vec3::Vec3;
+use crate::vec3::{Vec3, Point3};
 
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct Ray {
-   pub origin: Vec3,
+   pub origin: Point3,
    pub direction: Vec3,
 }
 
@@ -18,7 +18,7 @@ impl Ray {
 
 impl Ray {
     //returns point when moving t times the direction from the origin
-    pub fn trace(&self, t : f32) -> Vec3 {
+    pub fn at(&self, t : f32) -> Vec3 {
        self.origin + t * self.direction 
     }
 }

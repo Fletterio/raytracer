@@ -1,10 +1,9 @@
 use super::{Hitable, HitRecord, material::Material};
-use crate::vec3::Vec3;
-use crate::ray::Ray;
+use crate::rtweekend::{Vec3, Point3, Ray};
 use std::rc::Rc;
 
 pub struct Sphere {
-    pub centre : Vec3,
+    pub centre : Point3,
     pub radius : f32,
     pub material : Rc <dyn Material>, 
 }
@@ -22,23 +21,22 @@ impl Sphere {
 impl Hitable for Sphere {
    fn hit(&self, r : &Ray, t_min : f32, t_max : f32) -> Option<HitRecord> {
         let oc = r.origin - self.centre;
-        let a = Vec3::dot(&r.direction, &r.direction);
-        let b = Vec3::dot(&oc, &r.direction);
-        let c = Vec3::dot(&oc, &oc) - self.radius * self.radius;
-        let discriminant = b*b - a * c;
-        if discriminant > 0f32{
-            let mut temp = (-b - f32::sqrt(discriminant)) / a;
-            if temp < t_max && temp > t_min {
-                //rec.t = temp;
-                //rec.p = r.trace(temp);
-                //rec.normal = (1.0 / self.radius) * (r.trace(temp) - self.centre);
-                return Some(HitRecord {t : temp, p : r.trace(temp), normal : (1.0 / self.radius) * (r.trace(temp) - self.centre), material : Rc::clone(&self.material) } );
-            }
-            temp = (-b + f32::sqrt(discriminant)) / a;
-            if temp < t_max && temp > t_min {
-                return Some(HitRecord {t : temp, p : r.trace(temp), normal : (1.0 / self.radius) * (r.trace(temp) - self.centre), material : Rc::clone(&self.material)});
-            }
+        let a = r.direction.sq_len();
+        let half_b = Vec3::dot(&oc, &r.direction);
+        let c = oc.sq_len() - self.radius * self.radius;
+        let discriminant = half_b*half_b - a * c;
+        if discriminant < 0f32 {return None}
+
+        let sqrtd = f32::sqrt(discriminant);
+        let mut root = (-half_b - sqrtd) / a;
+        if root < t_min || root > t_max {
+            root = (-half_b + sqrtd) / a;
+            if root < t_min || root > t_max {return None}
         }
-        return None; 
-   }
+        let impact_point = r.at(root);
+        let outward_normal = (1.0 / self.radius) * (impact_point - self.centre);
+        let mut hit_record = HitRecord {t : root, p : impact_point, normal : outward_normal, front_face : true ,material : Rc::clone(&self.material)};
+        hit_record.set_face_normal(r, &outward_normal);
+        return Some(hit_record);
+   } 
 }
