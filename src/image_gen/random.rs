@@ -7,9 +7,13 @@ use crate::hitable::{Hitable, sphere::Sphere, hitable_list::HitableList, materia
 use std::rc::Rc;
 use crate::camera::Camera;
 
-fn ray_color(r: &Ray, world : &impl Hitable) -> Color{
+fn ray_color(r: &Ray, world : &impl Hitable, depth : i32) -> Color{
+    //if we exceed the number of bounces
+    if depth <= 0 {return Color::new(0.0, 0.0, 0.0);}
+
     if let Some(hit_record) = world.hit(r, DELTA, INFINITY) {
-        return 0.5 * (hit_record.normal + Color::new(1.0, 1.0, 1.0));
+        let target = hit_record.p + Vec3::random_in_hemisphere(&hit_record.normal);
+        return 0.5 * ray_color(&Ray::new(hit_record.p, target - hit_record.p), world, depth - 1);
     }
     let unit_direction = Vec3::normalize(r.direction);
     let t = 0.5 * (unit_direction.y() + 1.0);
@@ -24,6 +28,7 @@ pub fn print() -> std::io::Result<()>{
     let IMAGE_WIDTH : i32 = 400;
     let IMAGE_HEIGHT : i32 = (IMAGE_WIDTH as f32 / ASPECT_RATIO).round() as i32;
     const SAMPLES_PER_PIXEL : i32 = 100;
+    const MAX_DEPTH : i32 = 50;
     
     //World setup
     let mut world = HitableList::new(vec![]);
@@ -45,7 +50,7 @@ pub fn print() -> std::io::Result<()>{
     //Create folder, file, and add formatting info
     fs::create_dir_all("images/")?;
 
-    let mut file = File::create("images/normal.ppm")?;
+    let mut file = File::create("images/random.ppm")?;
     file.write_all(format!("P3\n{} {}\n255\n", IMAGE_WIDTH, IMAGE_HEIGHT).as_bytes())?;
     
     //Render
@@ -61,7 +66,7 @@ pub fn print() -> std::io::Result<()>{
                 let u = (i as f32 + random_double()) / (IMAGE_WIDTH as f32 - 1.0);
                 let v = (j as f32 + random_double()) / (IMAGE_HEIGHT as f32 - 1.0);
                 let r = cam.get_ray(u,v);
-                pixel_color += ray_color(&r, &world);
+                pixel_color += ray_color(&r, &world, MAX_DEPTH);
             }
             pixel_color.write_color(0.5, SAMPLES_PER_PIXEL, &mut file);
         }

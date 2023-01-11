@@ -5,7 +5,10 @@ use rand::distributions::{Distribution, Uniform};
 //Constants
 pub const PI : f32 = std::f32::consts::PI;
 pub const INFINITY : f32 = f32::INFINITY;
-
+pub const DELTA : f32 = 0.001; //points closer than this are essentially the same
+                               //this avoids multiple hits on the same position when
+                               //a ray spawned at an object hits the same object because
+                               //of numerical inaccuracy at small values.
 //Utility
 
 pub fn deg_to_rad(deg : f32) -> f32{

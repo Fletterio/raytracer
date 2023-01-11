@@ -2,15 +2,14 @@ pub mod sphere;
 pub mod hitable_list;
 pub mod material;
 
-use crate::ray::Ray;
-use crate::vec3::Vec3;
+use crate::rtweekend::{Vec3, Point3, Ray};
 use material::Material;
 use std::rc::Rc;
 
 #[derive(Clone)]
 pub struct HitRecord {
     pub t : f32,                    //parameter on which tracing the ray hits the hitable object
-    pub p : Vec3,                   //point of impact
+    pub p : Point3,                   //point of impact
     pub normal : Vec3,              //surface normal at point of impact
     pub front_face : bool,
     pub material : Rc<dyn Material>,    //material hit
