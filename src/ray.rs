@@ -9,6 +9,7 @@ pub struct Ray {
 
 //constructors
 impl Ray {
+    #[inline]
     pub fn new(a : Vec3, b : Vec3) -> Ray{
         Ray {origin : a, direction : b}
     }
@@ -18,6 +19,7 @@ impl Ray {
 
 impl Ray {
     //returns point when moving t times the direction from the origin
+    #[inline]
     pub fn at(&self, t : f32) -> Vec3 {
        self.origin + t * self.direction 
     }

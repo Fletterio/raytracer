@@ -13,6 +13,7 @@ impl Dielectric {
     pub fn new(ri : f32) -> Dielectric { Dielectric {ir : ri} }
 }
 
+#[inline]
 fn reflectance(cosine : f32, ref_idx : f32)  -> f32{
     //Schlick's approximation for reflectance
     let mut r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
