@@ -9,6 +9,9 @@ pub const DELTA : f32 = 0.001; //points closer than this are essentially the sam
                                //this avoids multiple hits on the same position when
                                //a ray spawned at an object hits the same object because
                                //of numerical inaccuracy at small values.
+
+pub const UP : Vec3 = Vec3 { e : [0.0, 1.0, 0.0]}; //up in the y direction
+
 //Utility
 
 pub fn deg_to_rad(deg : f32) -> f32{

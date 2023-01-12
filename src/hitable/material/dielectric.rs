@@ -1,61 +1,44 @@
-use crate::ray::Ray;
-use crate::vec3::Vec3;
-use super::{Material, reflect, refract};
+use crate::rtweekend::{Vec3, Ray, Color, random_double};
+use super::Material;
 use crate::hitable::HitRecord;
 use rand::distributions::{Distribution, Uniform};
 
-fn schlick(cosine : f32, ref_idx : f32) -> f32{
-    let mut r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
-    r0 = r0 * r0;
-    return r0 + (1.0 - r0)* (1.0 - cosine).powi(5);
-}
 
 pub struct Dielectric {
-    pub ir : f32,
+    pub ir : f32, //index of refraction
 }
 
 //constructors
 impl Dielectric {
-    pub fn new(ri : f32) -> Dielectric { Dielectric {ref_idx : ri} }
+    pub fn new(ri : f32) -> Dielectric { Dielectric {ir : ri} }
+}
+
+fn reflectance(cosine : f32, ref_idx : f32)  -> f32{
+    //Schlick's approximation for reflectance
+    let mut r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
+    r0 = r0 * r0;
+    return r0 + (1.0 - r0)*(1.0 - cosine).powi(5);
 }
 
 impl Material for Dielectric {
     fn scatter(&self, r_in : &Ray, rec : &HitRecord) -> Option<(Vec3, Ray)> {
-        let outward_normal : Vec3;
-        let reflected = reflect(&r_in.direction, &rec.normal);
-        let ni_over_nt : f32;
-        let attenuation = Vec3::new(1.0, 1.0, 1.0);
-        let refracted : Vec3;
-        let reflect_prob : f32;
-        let cosine : f32;
-        let scattered : Ray;
-        if Vec3::dot(&r_in.direction, &rec.normal) > 0.0 {
-            outward_normal = -rec.normal;
-            ni_over_nt = self.ref_idx;
-            cosine = self.ref_idx * Vec3::dot(&r_in.direction, &rec.normal) / r_in.direction.len();
+        let attenuation = Color::new(1.0, 1.0, 1.0);
+        let refraction_ratio = if rec.front_face {1.0 / self.ir} else {self.ir};
+        let unit_direction = Vec3::normalize(r_in.direction);
+        let cos_theta = Vec3::dot(&-unit_direction, &rec.normal).min(1.0);
+        let sin_theta = f32::sqrt(1.0 - cos_theta * cos_theta);
+
+        let cannot_refract = refraction_ratio * sin_theta > 1.0;
+        let direction : Vec3;
+
+        if cannot_refract || reflectance(cos_theta, refraction_ratio) > random_double(){
+            direction = Vec3::reflect(&unit_direction, &rec.normal);
         }
         else {
-            outward_normal = rec.normal;
-            ni_over_nt = 1.0 / self.ref_idx;
-            //why is ref_idx missing here
-            cosine = - self.ref_idx * Vec3::dot(&r_in.direction, &rec.normal) / r_in.direction.len();
+            direction = Vec3::refract(&unit_direction, &rec.normal, refraction_ratio);
         }
-        if let Some(temp_refracted) = refract(&r_in.direction, &outward_normal, ni_over_nt) {
-            refracted = temp_refracted;
-            reflect_prob = schlick(cosine, self.ref_idx);
-        }
-        else {
-            refracted = Vec3::new(0.0, 0.0, 0.0);
-            reflect_prob = 1.0;
-        }
-        let mut rng = rand::thread_rng();
-        let uniform = Uniform::from(0f32..1f32);
-        if uniform.sample(&mut rng) < reflect_prob {
-            scattered = Ray::new(rec.p, reflected);
-        }
-        else {
-            scattered = Ray::new(rec.p, refracted);
-        }
+        
+        let scattered = Ray::new(rec.p, direction);
         return Some((attenuation, scattered));
     }
 }

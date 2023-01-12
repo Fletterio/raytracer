@@ -75,6 +75,22 @@ impl Vec3 {
         }
         return in_unit_sphere;
     }
+
+    pub fn random_in_unit_disk() -> Vec3 {
+        while true {
+            let p = Vec3::new(random_double_between(-1.0, 1.0), random_double_between(-1.0, 1.0), 0.0);
+            if p.sq_len() < 1.0 {return p};
+        }
+        return Self::new(0.0, 0.0, 0.0)
+    }
+}
+
+//check for very small vectors
+impl Vec3 {
+    pub fn near_zero(&self) -> bool {
+        const s : f32 = 1e-8;
+        return self.e[0].abs() < s && self.e[1].abs() < s && self.e[2].abs() < s;
+    }
 }
 
 //type aliases

@@ -6,5 +6,5 @@ mod camera;
 mod rtweekend;
 
 fn main() {
-    image_gen::random::print();
+    image_gen::fin::print();
 }
