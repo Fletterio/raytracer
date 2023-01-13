@@ -5,15 +5,15 @@ use crate::rtweekend::clamp;
 
 impl Color {
     pub fn write_color(&self, gamma : f32 ,samples : i32 ,f : &mut File) -> std::io::Result<()> {
-        let mut r = self.r();
-        let mut g = self.g();
-        let mut b = self.b();
+        let self_as_array = self.as_array();
 
         //Divide color by number of samples
         let scale = 1.0 / samples as f32;
-        r = (scale * r).powf(gamma);
-        g = (scale * g).powf(gamma);
-        b = (scale * b).powf(gamma);
+        //r = (scale * r).powf(gamma);
+        //g = (scale * g).powf(gamma);
+        //b = (scale * b).powf(gamma);
+        let [r, g, b] : [f32; 3] = self_as_array.into_iter().map(|x| (scale * x).powf(gamma)).collect::<Vec<f32>>().try_into().unwrap();
+
 
 
 

@@ -1,5 +1,6 @@
 //general utility file
 
+use std::simd::f32x4;
 use rand::distributions::{Distribution, Uniform};
 
 //Constants
@@ -10,7 +11,7 @@ pub const DELTA : f32 = 0.001; //points closer than this are essentially the sam
                                //a ray spawned at an object hits the same object because
                                //of numerical inaccuracy at small values.
 
-pub const UP : Vec3 = Vec3 { e : [0.0, 1.0, 0.0]}; //up in the y direction
+pub const UP : Vec3 = Vec3 { e : f32x4::from_array([0.0, 1.0, 0.0, 0.0])}; //up in the y direction
 
 //Utility
 
