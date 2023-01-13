@@ -1,3 +1,5 @@
+use std::simd::f32x4;
+
 pub mod operations;
 pub mod geometric_operations;
 pub mod color;
