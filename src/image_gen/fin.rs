@@ -25,7 +25,7 @@ fn ray_color(r: &Ray, world : &impl Hitable, depth : i32) -> Color{
 fn random_scene() -> HitableList {
     let mut world = HitableList::new(vec![]);
 
-    let ground_material = Rc::new(Lambertian::new(Color::new(1.0, 228.0 / 255.0, 181.0 / 255.0)));
+    let ground_material = Rc::new(Lambertian::new(Color::new(1.0, 140.0 / 255.0 , 0.0)));
     world.add(Rc::new(Sphere::new(
                 Point3::new(0.0, -1000.0, 0.0),
                 1000.0,
@@ -62,7 +62,7 @@ fn random_scene() -> HitableList {
     let glass = Rc::new(Dielectric::new(1.7));
     world.add(Rc::new(Sphere::new(Point3::new(0.0, 1.0, 0.0), 1.0, glass)));
 
-    let lambert = Rc::new(Lambertian::new(Color::new(0.8, 0.1, 0.7)));
+    let lambert = Rc::new(Lambertian::new(Color::new(64.0 / 255.0 , 224.0 / 255.0, 208.0 / 255.0)));
     world.add(Rc::new(Sphere::new(Point3::new(-4.0, 1.0, 0.0), 1.0, lambert)));
 
     let metal = Rc::new(Metal::new(Color::new(0.8, 0.8, 0.8), 0.0));
@@ -89,7 +89,7 @@ pub fn print() -> std::io::Result<()>{
     let lookfrom = Point3::new(13.0, 2.0, 3.0);
     let lookat = Point3::new(0.0, 0.0, 0.0);
     let dist_to_focus = 10.0;
-    let aperture = 0.1;
+    let aperture = 0.035;
 
     let cam = Camera::new(lookfrom, lookat, UP ,20.0, 16.0 / 9.0, aperture, dist_to_focus);
 

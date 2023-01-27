@@ -1,3 +1,5 @@
+use std::simd::f32x4;
+
 pub mod operations;
 pub mod geometric_operations;
 pub mod color;
@@ -7,14 +9,14 @@ use crate::rtweekend::{random_double_between};
 
 #[derive(Copy, Clone, PartialEq, Debug, Default)]
 pub struct Vec3 {
-   pub e: [f32; 3],
+   pub e: f32x4,
 }
 
 //constructors
 impl Vec3 {
     #[inline]
     pub fn new(e0: f32, e1: f32, e2: f32) -> Self {
-        Vec3 { e: [e0, e1, e2] }
+        Vec3 { e: f32x4::from_array([e0, e1, e2, 0.0]) }
     }
 }
 
@@ -50,7 +52,8 @@ impl Vec3 {
 impl Color {
     #[inline]
     pub fn gamma_correct(&mut self, alpha : f32) {
-        self.e = [self.e[0].powf(alpha), self.e[1].powf(alpha), self.e[2].powf(alpha)];
+        let self_as_array = self.as_array();
+        self.e = f32x4::from_array(self_as_array.into_iter().map(|x| x.powf(alpha)).collect::<Vec<f32>>().try_into().unwrap());
     }
 }
 
@@ -103,8 +106,8 @@ impl Vec3 {
 impl Vec3 {
     #[inline]
     pub fn near_zero(&self) -> bool {
-        const s : f32 = 1e-8;
-        return self.e[0].abs() < s && self.e[1].abs() < s && self.e[2].abs() < s;
+        const S : f32 = 1e-8;
+        return self.e[0].abs() < S && self.e[1].abs() < S && self.e[2].abs() < S;
     }
 }
 
@@ -121,4 +124,17 @@ impl fmt::Display for Vec3 {
     }
 }
 
+
+//-----------------------------------------SIMD ONLY--------------------
+
+
+impl Vec3 {
+
+    //reading into a SIMD is expensive. When we need to read all three value, we might as well just get them all in one read to the stack
+    pub fn as_array(&self) -> [f32; 3] {
+        let [x,y,z,w] = self.e.as_array();
+        [*x,*y,*z]
+    }
+
+}
 

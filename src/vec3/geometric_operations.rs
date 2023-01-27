@@ -1,17 +1,24 @@
-use super::Vec3;
+use super::*;
 use std::ops::{Mul, Div, MulAssign, DivAssign};
+use std::simd::simd_swizzle;
+use std::simd::SimdFloat;
 
 impl Vec3{
     #[inline]
     pub fn dot(v1 : &Self, v2 : &Self) -> f32 {
-        v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
+        (v1.e * v2.e).reduce_sum()
     }
 
+
+    // https://geometrian.com/programming/tutorials/cross-product/index.php
     #[inline]
-    pub fn cross(v1 : &Self, v2 : &Self) -> Self {
-        Self{ e : [v1[1] * v2[2] - v1[2] * v2[1], 
-                   v1[2] * v2[0] - v1[0] * v2[2],
-                   v1[0] * v2[1] - v1[1] * v2[0]]}
+    pub fn cross(v0 : &Self, v1 : &Self) -> Self {
+        let t0 : f32x4 = simd_swizzle!(v0.e, [1,2,0,3]);
+        let t1 : f32x4 = simd_swizzle!(v1.e, [2,0,1,3]);
+        let t2 : f32x4 = t0 * v1.e;
+        let t3 : f32x4 = t0 * t1;
+        let t4 : f32x4 = simd_swizzle!(t2, [1,2,0,3]);
+        Self {e : t3 - t4}
     }
 
     #[inline]
@@ -53,7 +60,8 @@ impl Mul<Vec3> for f32 {
 
     #[inline]
     fn mul(self, v : Vec3) -> Vec3{
-        Vec3 {e : [v[0] * self, v[1] * self, v[2] * self],}
+        let d = Vec3 {e : f32x4::splat(self)};
+        v * d
     }
 }
 
@@ -62,7 +70,8 @@ impl Div<f32> for Vec3 {
 
     #[inline]
     fn div(self, f : f32) -> Vec3 {
-        Vec3 {e : [self[0] / f, self[1] / f, self[2] / f],}
+        let d = f32x4::splat(f);
+        Vec3 {e : self.e / d}
     }
 }
 
@@ -71,17 +80,15 @@ impl Div<f32> for Vec3 {
 impl MulAssign<f32> for Vec3 {
     #[inline]
     fn mul_assign(&mut self, f : f32){
-        self.e[0] *= f;
-        self.e[1] *= f;
-        self.e[2] *= f;
+        let d = Vec3 {e : f32x4::splat(f)};
+        *self *= d;
     }
 }
 
 impl DivAssign<f32> for Vec3 {
     #[inline]
     fn div_assign(&mut self, f : f32){
-        self.e[0] /= f;
-        self.e[1] /= f;
-        self.e[2] /= f;
+        let d = Vec3 {e : f32x4::splat(f)};
+        *self /= d;
     }
 }

@@ -4,7 +4,7 @@ use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
 };
 
-use super::Vec3;
+use super::*;
 
 //operators
 impl Neg for Vec3 {
@@ -13,7 +13,7 @@ impl Neg for Vec3 {
     #[inline]
     fn neg(self) -> Self::Output {
         Vec3 {
-            e: [-self.e[0], -self.e[1], -self.e[2]],
+            e: - self.e,
         }
     }
 }
@@ -40,11 +40,7 @@ impl Add for Vec3 {
     #[inline]
     fn add(self, other: Self) -> Self {
         Self {
-            e: [
-                self.e[0] + other.e[0],
-                self.e[1] + other.e[1],
-                self.e[2] + other.e[2],
-            ],
+            e: self.e + other.e,
         }
     }
 }
@@ -52,9 +48,7 @@ impl Add for Vec3 {
 impl AddAssign for Vec3 {
     #[inline]
     fn add_assign(&mut self, other: Self) {
-        self.e[0] += other.e[0];
-        self.e[1] += other.e[1];
-        self.e[2] += other.e[2];
+        self.e += other.e;
     }
 }
 
@@ -63,14 +57,14 @@ impl Sub for Vec3 {
 
     #[inline]
     fn sub(self, other: Self) -> Self {
-        self + -other
+        Self { e : self.e - other.e}
     }
 }
 
 impl SubAssign for Vec3 {
     #[inline]
     fn sub_assign(&mut self, other: Self) {
-        *self += -other;
+        self.e -= other.e;
     }
 }
 
@@ -80,11 +74,7 @@ impl Mul for Vec3 {
     #[inline]
     fn mul(self, other: Self) -> Self {
         Self {
-            e: [
-                self.e[0] * other.e[0],
-                self.e[1] * other.e[1],
-                self.e[2] * other.e[2],
-            ],
+            e: self.e * other.e,
         }
     }
 }
@@ -92,9 +82,7 @@ impl Mul for Vec3 {
 impl MulAssign for Vec3 {
     #[inline]
     fn mul_assign(&mut self, other: Self) {
-        self.e[0] *= other.e[0];
-        self.e[1] *= other.e[1];
-        self.e[2] *= other.e[2];
+        self.e *= other.e;
     }
 }
 
@@ -103,12 +91,9 @@ impl Div for Vec3 {
 
     #[inline]
     fn div(self, other: Self) -> Self {
+        let f = other.e + f32x4::from_array([0.0, 0.0, 0.0, 1.0]);
         Self {
-            e: [
-                self.e[0] / other.e[0],
-                self.e[1] / other.e[2],
-                self.e[3] / other.e[3],
-            ],
+            e: self.e / f,
         }
     }
 }
@@ -116,9 +101,8 @@ impl Div for Vec3 {
 impl DivAssign for Vec3 {
     #[inline]
     fn div_assign(&mut self, other: Self) {
-        self.e[0] /= other.e[0];
-        self.e[1] /= other.e[1];
-        self.e[2] /= other.e[3];
+        let f = other.e + f32x4::from_array([0.0, 0.0, 0.0, 1.0]);
+        self.e /= f;
     }
 }
 
