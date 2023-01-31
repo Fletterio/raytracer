@@ -6,7 +6,7 @@ use std::io::prelude::*;
 use std::io::{stdout, Write};
 use crate::camera::Camera;
 use rayon::prelude::*;
-
+use std::sync::Arc;
 
 pub fn ray_color(r: &Ray, world : &impl Hitable, depth : i32) -> Color{
     //if we exceed the number of bounces
@@ -46,7 +46,7 @@ pub fn render(width : i32, height : i32, samples : i32, depth : i32, world : &im
                 let v = (j as f32 + random_double()) / (height as f32 - 1.0);
                 let r = cam.get_ray(u,v);
                 ray_color(&r, world, depth)
-            }).fold(|| Color::new(0.0, 0.0, 0.0), |acc, elem| acc + elem);
+            }).reduce(|| Color::new(0.0, 0.0, 0.0), |acc, elem| acc + elem);
 
             pixel_color.write_color(0.5, samples, &mut file);
             /*let mut pixel_color = Color::new(0.0, 0.0, 0.0);

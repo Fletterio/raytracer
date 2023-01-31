@@ -7,6 +7,7 @@ use crate::hitable::{Hitable, sphere::Sphere, hitable_list::HitableList, materia
 use std::rc::Rc;
 use crate::camera::Camera;
 use crate::renderer::*;
+use std::sync::Arc;
 
 
 fn random_scene() -> HitableList {
@@ -81,7 +82,7 @@ pub fn print() -> std::io::Result<()>{
     let cam = Camera::new(lookfrom, lookat, UP ,20.0, 16.0 / 9.0, aperture, dist_to_focus);
 
 
-    render(IMAGE_WIDTH, IMAGE_HEIGHT, SAMPLES_PER_PIXEL, MAX_DEPTH, &world, &cam, "final");
+    render(IMAGE_WIDTH, IMAGE_HEIGHT, SAMPLES_PER_PIXEL, MAX_DEPTH, world, cam, "final");
     
 
 
