@@ -1,17 +1,17 @@
 use super::{Hitable, HitRecord, material::Material};
 use crate::rtweekend::{Vec3, Point3, Ray};
-use std::rc::Rc;
+use std::sync::Arc;
 
 pub struct Sphere {
     pub centre : Point3,
     pub radius : f32,
-    pub material : Rc <dyn Material>, 
+    pub material : Arc <dyn Material>, 
 }
 
 //constructors
 
 impl Sphere {
-    pub fn new (c : Vec3, r : f32, mat : Rc<dyn Material>) -> Sphere {
+    pub fn new (c : Vec3, r : f32, mat : Arc<dyn Material>) -> Sphere {
         Sphere {centre : c, radius : r, material : mat}
     }
 }
@@ -35,7 +35,7 @@ impl Hitable for Sphere {
         }
         let impact_point = r.at(root);
         let outward_normal = (1.0 / self.radius) * (impact_point - self.centre);
-        let mut hit_record = HitRecord {t : root, p : impact_point, normal : outward_normal, front_face : true ,material : Rc::clone(&self.material)};
+        let mut hit_record = HitRecord {t : root, p : impact_point, normal : outward_normal, front_face : true , material : Arc::clone(&self.material)};
         hit_record.set_face_normal(r, &outward_normal);
         return Some(hit_record);
    } 

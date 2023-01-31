@@ -1,15 +1,15 @@
 use super::{Hitable, HitRecord, material::{Material, lambertian::Lambertian}};
 use crate::rtweekend::{Vec3, Point3, Ray};
-use std::rc::Rc;
+use std::sync::Arc;
 
 pub struct HitableList {
-    pub list : Vec<Rc<dyn Hitable>>
+    pub list : Vec<Arc<dyn Hitable>>
 }
 
 //constructors
 
 impl HitableList {
-    pub fn new (l : Vec<Rc<dyn Hitable>>) -> HitableList {
+    pub fn new (l : Vec<Arc<dyn Hitable>>) -> HitableList {
         HitableList {list : l}
     }
 }
@@ -17,7 +17,7 @@ impl HitableList {
 //methods
 impl HitableList {
     //add objects to list
-    pub fn add(&mut self, object : Rc<dyn Hitable>) {
+    pub fn add(&mut self, object : Arc<dyn Hitable>) {
         self.list.push(object);
     }
 
