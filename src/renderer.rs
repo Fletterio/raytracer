@@ -28,9 +28,10 @@ pub fn render(width : i32, height : i32, samples : i32, depth : i32, world : &im
     //Create folder, file, and add formatting info
     fs::create_dir_all("images/").unwrap();
 
-    let mut path = String::from("images/");    
+    let path = format!("{}{}{}", "images/", out, ".ppm");
+    /*let mut path = String::from("images/");    
     path.push_str(out);
-    path.push_str(".ppm");
+    path.push_str(".ppm");*/
     let mut file = File::create(path).unwrap();
     file.write_all(format!("P3\n{} {}\n255\n", width, height).as_bytes()).unwrap();
 
