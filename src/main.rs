@@ -1,3 +1,5 @@
+#![feature(portable_simd)]
+
 mod vec3;
 mod ray;
 mod hitable;
