@@ -1,6 +1,7 @@
 use crate::hitable::{
     hitable_list::HitableList,
     material::{dielectric::Dielectric, lambertian::Lambertian, metal::Metal, Material},
+    moving_sphere::MovingSphere,
     sphere::Sphere,
     Hitable,
 };
@@ -39,21 +40,30 @@ fn random_scene() -> HitableList {
             if (center - Point3::new(4.0, 0.2, 0.0)).len() > 0.9 {
                 let sphere_material: Arc<dyn Material>;
 
-                if choose_mat < 0.5 {
+                if choose_mat < 0.8 {
                     //diffuse
                     let albedo = Color::random() * Color::random();
                     sphere_material = Arc::new(Lambertian::new(albedo));
+                    let center2 = center + Vec3::new(0.0, random_double_between(0.0, 0.5), 0.0);
+                    world.add(Arc::new(MovingSphere::new(
+                        center,
+                        center2,
+                        0.0,
+                        1.0,
+                        0.2,
+                        sphere_material,
+                    )));
                 } else if choose_mat < 0.95 {
                     //metal
                     let albedo = Color::random_between(0.5, 1.0);
                     let fuzz = random_double_between(0.0, 0.4);
                     sphere_material = Arc::new(Metal::new(albedo, fuzz));
+                    world.add(Arc::new(Sphere::new(center, 0.2, sphere_material)));
                 } else {
                     //glass
                     sphere_material = Arc::new(Dielectric::new(1.8));
+                    world.add(Arc::new(Sphere::new(center, 0.2, sphere_material)));
                 }
-
-                world.add(Arc::new(Sphere::new(center, 0.2, sphere_material)));
             }
         }
     }
@@ -107,6 +117,8 @@ pub fn print() -> std::io::Result<()> {
         16.0 / 9.0,
         aperture,
         dist_to_focus,
+        0.0,
+        1.0,
     );
 
     render(

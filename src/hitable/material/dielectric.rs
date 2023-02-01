@@ -43,7 +43,7 @@ impl Material for Dielectric {
             direction = Vec3::refract(&unit_direction, &rec.normal, refraction_ratio);
         }
 
-        let scattered = Ray::new(rec.p, direction);
+        let scattered = Ray::new(rec.p, direction, r_in.time);
         return Some((attenuation, scattered));
     }
 }

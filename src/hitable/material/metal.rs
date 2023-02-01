@@ -22,7 +22,11 @@ impl Metal {
 impl Material for Metal {
     fn scatter(&self, r_in: &Ray, rec: &HitRecord) -> Option<(Vec3, Ray)> {
         let reflected = Vec3::reflect(&Vec3::normalize(r_in.direction), &rec.normal);
-        let scattered = Ray::new(rec.p, reflected + self.fuzz * Vec3::random_in_unit_sphere());
+        let scattered = Ray::new(
+            rec.p,
+            reflected + self.fuzz * Vec3::random_in_unit_sphere(),
+            r_in.time,
+        );
         if Vec3::dot(&scattered.direction, &rec.normal) > 0f32 {
             return Some((self.albedo, scattered));
         } else {

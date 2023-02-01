@@ -25,7 +25,7 @@ impl Material for Lambertian {
             scatter_direction = rec.normal;
         }
 
-        let scattered = Ray::new(rec.p, scatter_direction);
+        let scattered = Ray::new(rec.p, scatter_direction, r_in.time);
         let attenuation = self.albedo;
         Some((attenuation, scattered))
     }

@@ -1,5 +1,6 @@
 pub mod hitable_list;
 pub mod material;
+pub mod moving_sphere;
 pub mod sphere;
 
 use crate::rtweekend::{Point3, Ray, Vec3};
