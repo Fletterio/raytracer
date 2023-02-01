@@ -12,9 +12,7 @@ impl Neg for Vec3 {
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Vec3 {
-            e: - self.e,
-        }
+        Vec3 { e: -self.e }
     }
 }
 
@@ -57,7 +55,9 @@ impl Sub for Vec3 {
 
     #[inline]
     fn sub(self, other: Self) -> Self {
-        Self { e : self.e - other.e}
+        Self {
+            e: self.e - other.e,
+        }
     }
 }
 
@@ -92,9 +92,7 @@ impl Div for Vec3 {
     #[inline]
     fn div(self, other: Self) -> Self {
         let f = other.e + f32x4::from_array([0.0, 0.0, 0.0, 1.0]);
-        Self {
-            e: self.e / f,
-        }
+        Self { e: self.e / f }
     }
 }
 
@@ -105,5 +103,3 @@ impl DivAssign for Vec3 {
         self.e /= f;
     }
 }
-
-

@@ -1,12 +1,11 @@
-#![feature(portable_simd)]
-
-mod vec3;
-mod ray;
+#![feature(portable_simd)];
+mod camera;
 mod hitable;
 mod image_gen;
-mod camera;
-mod rtweekend;
+mod ray;
 mod renderer;
+mod rtweekend;
+mod vec3;
 
 fn main() {
     image_gen::fin::print();
