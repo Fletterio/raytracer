@@ -60,17 +60,7 @@ pub fn render(
                 .reduce(|| Color::new(0.0, 0.0, 0.0), |acc, elem| acc + elem);
 
             pixel_color.write_color(0.5, samples, &mut file);
-            /*let mut pixel_color = Color::new(0.0, 0.0, 0.0);
-
-
-            for _s in 0..samples {
-                let u = (i as f32 + random_double()) / (width as f32 - 1.0);
-                let v = (j as f32 + random_double()) / (height as f32 - 1.0);
-                let r = cam.get_ray(u,v);
-                pixel_color += ray_color(&r, world, depth);
             }
-            pixel_color.write_color(0.5, samples, &mut file);*/
-        }
     }
     println!("Done!");
 }

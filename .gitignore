@@ -17,3 +17,4 @@ src/images/
 
 #ignore bash script for building without nightly support errors
 src/build.sh
+src/output.txt
