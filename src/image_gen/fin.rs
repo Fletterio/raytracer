@@ -114,7 +114,7 @@ pub fn print() -> std::io::Result<()> {
         lookat,
         UP,
         20.0,
-        16.0 / 9.0,
+        ASPECT_RATIO,
         aperture,
         dist_to_focus,
         0.0,

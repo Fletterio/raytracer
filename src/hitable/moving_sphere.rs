@@ -38,7 +38,7 @@ impl Hitable for MovingSphere {
         let oc = r.origin - self.center(r.time);
         let a = r.direction.sq_len();
         let half_b = Vec3::dot(&oc, &r.direction);
-        let c = oc.sq_len();
+        let c = oc.sq_len() - radius * radius;
 
         let discriminant = half_b * half_b - a * c;
         if discriminant < 0.0 {

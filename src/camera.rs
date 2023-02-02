@@ -1,4 +1,4 @@
-use crate::rtweekend::{deg_to_rad, Point3, Ray, Vec3, random_double_between};
+use crate::rtweekend::{deg_to_rad, random_double_between, Point3, Ray, Vec3};
 
 pub struct Camera {
     pub origin: Point3,
@@ -9,7 +9,7 @@ pub struct Camera {
     pub v: Vec3,
     pub w: Vec3,
     pub lens_radius: f32,
-    pub time0: f32, 
+    pub time0: f32,
     pub time1: f32,
 }
 
@@ -70,7 +70,7 @@ impl Camera {
         return Ray::new(
             ray_origin,
             self.lower_left_corner + s * self.horizontal + t * self.vertical - ray_origin,
-            random_double_between(self.time0, self.time1)
+            random_double_between(self.time0, self.time1),
         );
     }
 }
