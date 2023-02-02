@@ -94,9 +94,9 @@ fn random_scene() -> HitableList {
 pub fn print() -> std::io::Result<()> {
     //Image parameters
     const ASPECT_RATIO: f32 = 16.0 / 9.0;
-    const IMAGE_WIDTH: i32 = 400;
+    const IMAGE_WIDTH: i32 = 1920;
     let IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f32 / ASPECT_RATIO).round() as i32;
-    const SAMPLES_PER_PIXEL: i32 = 100;
+    const SAMPLES_PER_PIXEL: i32 = 500;
     const MAX_DEPTH: i32 = 50;
 
     //World setup
