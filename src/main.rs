@@ -1,4 +1,5 @@
 #![feature(portable_simd)]
+mod aabb;
 mod camera;
 mod hitable;
 mod image_gen;

@@ -3,6 +3,7 @@ pub mod material;
 pub mod moving_sphere;
 pub mod sphere;
 
+use crate::aabb::AABB;
 use crate::rtweekend::{Point3, Ray, Vec3};
 use material::Material;
 use std::marker::Sync;
@@ -31,5 +32,8 @@ impl HitRecord {
 }
 
 pub trait Hitable: Sync + Send {
+    //returns whether there was a hit, and if so info about the hit
     fn hit(&self, r: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
+
+    fn bounding_box(&self, time0: f32, time1: f32) -> Option<AABB>;
 }

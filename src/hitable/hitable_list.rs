@@ -1,6 +1,6 @@
 use super::{
     material::{lambertian::Lambertian, Material},
-    HitRecord, Hitable,
+    HitRecord, Hitable, AABB,
 };
 use crate::rtweekend::{Point3, Ray, Vec3};
 use std::sync::Arc;
@@ -47,5 +47,29 @@ impl Hitable for HitableList {
             }
         }
         return actual_hit_record;
+    }
+
+    fn bounding_box(&self, time0: f32, time1: f32) -> Option<AABB> {
+        let mut output_box: Option<AABB> = None;
+        if self.list.is_empty() {
+            return None;
+        };
+        let mut first_box = true;
+        for object in &self.list {
+            match object.bounding_box(time0, time1) {
+                None => {
+                    return None;
+                }
+                Some(temp_box) => {
+                    output_box = if first_box {
+                        Some(temp_box)
+                    } else {
+                        Some(AABB::surrounding_box(&output_box.unwrap(), &temp_box))
+                    };
+                    first_box = false;
+                }
+            };
+        }
+        return output_box;
     }
 }

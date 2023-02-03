@@ -1,4 +1,4 @@
-use super::{material::Material, HitRecord, Hitable};
+use super::{material::Material, HitRecord, Hitable, AABB};
 use crate::rtweekend::{Point3, Ray, Vec3};
 use std::sync::Arc;
 
@@ -52,5 +52,12 @@ impl Hitable for Sphere {
         };
         hit_record.set_face_normal(r, &outward_normal);
         return Some(hit_record);
+    }
+
+    fn bounding_box(&self, time0: f32, time1: f32) -> Option<AABB> {
+        Some(AABB::new(
+            self.centre - Vec3::new(self.radius, self.radius, self.radius),
+            self.centre + Vec3::new(self.radius, self.radius, self.radius),
+        ))
     }
 }
