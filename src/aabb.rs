@@ -3,8 +3,8 @@ use std::mem;
 use std::simd::{f32x4, SimdFloat};
 
 pub struct AABB {
-    min: Point3,
-    max: Point3,
+    pub min: Point3,
+    pub max: Point3,
 }
 
 //constructors
@@ -20,7 +20,7 @@ impl AABB {
     pub fn hit(&self, r: &Ray, t_min: f32, t_max: f32) -> bool {
         let mut tm = t_min;
         let mut tM = t_max;
-        for i in (0..3) {
+        for i in 0..3 {
             let invD = 1.0 / r.direction[i];
             let mut t0 = (self.min[i] - r.origin[i]) * invD;
             let mut t1 = (self.max[i] - r.origin[i]) * invD;

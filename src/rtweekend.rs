@@ -45,6 +45,11 @@ pub fn clamp(x: f32, min: f32, max: f32) -> f32 {
     return x;
 }
 
+#[inline]
+pub fn random_int(min: i32, max: i32) -> i32 {
+    random_double_between(min as f32, (max + 1) as f32).floor() as i32
+}
+
 //Common headers
 
 pub use crate::ray::Ray;

@@ -60,7 +60,7 @@ pub fn render(
                 .reduce(|| Color::new(0.0, 0.0, 0.0), |acc, elem| acc + elem);
 
             pixel_color.write_color(0.5, samples, &mut file);
-            }
+        }
     }
     println!("Done!");
 }

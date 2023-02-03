@@ -1,5 +1,6 @@
 #![feature(portable_simd)]
 mod aabb;
+mod bvh_node;
 mod camera;
 mod hitable;
 mod image_gen;
@@ -9,5 +10,5 @@ mod rtweekend;
 mod vec3;
 
 fn main() {
-    image_gen::fin::print();
+    //image_gen::fin::print();
 }
