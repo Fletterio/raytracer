@@ -40,14 +40,15 @@ impl Hitable for BVH_Node {
 //constructors
 impl BVH_Node {
     pub fn new(src_objects: &[Arc<dyn Hitable>], time0: f32, time1: f32) -> Self {
-        let mut objects: &mut [Arc<dyn Hitable>] = src_objects.clone();
+        let object_span = src_objects.len();
+        let mut objects = Vec::with_capacity(object_span);
+        objects.clone_from_slice(src_objects);
         let axis = random_int(0, 2) as usize;
         let comparator = match axis {
             0 => box_x_compare,
             1 => box_y_compare,
             _ => box_z_compare,
         };
-        let object_span = src_objects.len();
         let out_left: Arc<dyn Hitable>;
         let out_right: Arc<dyn Hitable>;
         if 1 == object_span {
