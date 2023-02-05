@@ -106,12 +106,12 @@ fn box_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>, axis: usize) -> Orderin
     }
 }
 
-fn box_x_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
+fn box_x_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>) -> Ordering {
     box_compare(a, b, 0)
 }
-fn box_y_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
+fn box_y_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>) -> Ordering {
     box_compare(a, b, 1)
 }
-fn box_z_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
+fn box_z_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>) -> Ordering {
     box_compare(a, b, 2)
 }
