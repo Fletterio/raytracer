@@ -2,6 +2,7 @@ use crate::rtweekend::{Point3, Ray};
 use std::mem;
 use std::simd::{f32x4, SimdFloat};
 
+#[derive(Copy, Clone)]
 pub struct AABB {
     pub min: Point3,
     pub max: Point3,
