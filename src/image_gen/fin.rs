@@ -57,7 +57,8 @@ fn random_scene() -> HitableList {
                     //metal
                     let albedo = Color::random_between(0.5, 1.0);
                     let fuzz = random_double_between(0.0, 0.4);
-                    sphere_material = Arc::new(Metal::new(albedo, fuzz));
+                    sphere_material =
+                        Arc::new(Metal::new(Arc::new(SolidColor::from(albedo)), fuzz));
                     world.add(Arc::new(Sphere::new(center, 0.2, sphere_material)));
                 } else {
                     //glass
@@ -83,7 +84,10 @@ fn random_scene() -> HitableList {
         lambert,
     )));
 
-    let metal = Arc::new(Metal::new(Color::new(0.8, 0.8, 0.8), 0.0));
+    let metal = Arc::new(Metal::new(
+        Arc::new(SolidColor::from(Color::new(0.8, 0.8, 0.8))),
+        0.0,
+    ));
     world.add(Arc::new(Sphere::new(
         Point3::new(4.0, 1.0, 0.0),
         1.0,

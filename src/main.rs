@@ -4,6 +4,7 @@ mod bvh_node;
 mod camera;
 mod hitable;
 mod image_gen;
+mod perlin;
 mod ray;
 mod renderer;
 mod rtweekend;

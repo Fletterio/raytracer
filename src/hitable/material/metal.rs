@@ -1,16 +1,18 @@
 use crate::hitable::{material::Material, HitRecord};
-use crate::rtweekend::{Ray, Vec3};
+use crate::rtweekend::{Color, Ray, Vec3};
+use crate::texture::{SolidColor, Texture};
+use std::sync::Arc;
 
-#[derive(Copy, Clone, PartialEq, Debug)]
+#[derive(Clone)]
 pub struct Metal {
-    pub albedo: Vec3,
+    pub albedo: Arc<dyn Texture>,
     pub fuzz: f32,
 }
 
 //constructors
 
 impl Metal {
-    pub fn new(a: Vec3, f: f32) -> Metal {
+    pub fn new(a: Arc<dyn Texture>, f: f32) -> Metal {
         let fuzziness = f.min(1.0);
         Metal {
             albedo: a,
@@ -20,7 +22,7 @@ impl Metal {
 }
 
 impl Material for Metal {
-    fn scatter(&self, r_in: &Ray, rec: &HitRecord) -> Option<(Vec3, Ray)> {
+    fn scatter(&self, r_in: &Ray, rec: &HitRecord) -> Option<(Color, Ray)> {
         let reflected = Vec3::reflect(&Vec3::normalize(r_in.direction), &rec.normal);
         let scattered = Ray::new(
             rec.p,
@@ -28,7 +30,7 @@ impl Material for Metal {
             r_in.time,
         );
         if Vec3::dot(&scattered.direction, &rec.normal) > 0f32 {
-            return Some((self.albedo, scattered));
+            return Some((self.albedo.value(rec.u, rec.v, &rec.p), scattered));
         } else {
             return None;
         }
