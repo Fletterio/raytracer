@@ -40,7 +40,7 @@ impl Hitable for BVH_Node {
 //constructors
 impl BVH_Node {
     pub fn new(src_objects: &[Arc<dyn Hitable>], time0: f32, time1: f32) -> Self {
-        let mut objects = src_objects.clone();
+        let mut objects: &mut [Arc<dyn Hitable>] = src_objects.clone();
         let axis = random_int(0, 2) as usize;
         let comparator = match axis {
             0 => box_x_compare,
