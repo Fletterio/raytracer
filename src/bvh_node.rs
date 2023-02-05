@@ -39,7 +39,7 @@ impl Hitable for BVH_Node {
 
 //constructors
 impl BVH_Node {
-    pub fn new(src_objects: &[impl Hitable + 'static'], time0: f32, time1: f32) -> Self {
+    pub fn new(src_objects: &[impl Hitable + 'static], time0: f32, time1: f32) -> Self {
         let mut objects = src_objects.clone();
         let axis = random_int(0, 2) as usize;
         let comparator = match axis {
