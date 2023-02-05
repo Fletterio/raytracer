@@ -54,7 +54,7 @@ impl BVH_Node {
             out_left = Arc::clone(&objects[0]);
             out_right = Arc::clone(&objects[0]);
         } else if 2 == object_span {
-            if Ordering::Less == comparator(objects[0], objects[1]) {
+            if Ordering::Less == comparator(&*objects[0], &*objects[1]) {
                 out_left = Arc::clone(&objects[0]);
                 out_right = Arc::clone(&objects[1]);
             } else {
@@ -88,7 +88,7 @@ impl BVH_Node {
     }
 }
 
-fn box_compare(a: &'a Arc<dyn Hitable>, b: &'b Arc<dyn Hitable>, axis: usize) -> Ordering {
+fn box_compare(a: &impl Hitable, b: &impl Hitable, axis: usize) -> Ordering {
     let box_a = a.bounding_box(0.0, 0.0);
     let box_b = b.bounding_box(0.0, 0.0);
 
@@ -106,12 +106,12 @@ fn box_compare(a: &'a Arc<dyn Hitable>, b: &'b Arc<dyn Hitable>, axis: usize) ->
     }
 }
 
-fn box_x_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>) -> Ordering {
+fn box_x_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
     box_compare(a, b, 0)
 }
-fn box_y_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>) -> Ordering {
+fn box_y_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
     box_compare(a, b, 1)
 }
-fn box_z_compare(a: Arc<dyn Hitable>, b: Arc<dyn Hitable>) -> Ordering {
+fn box_z_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
     box_compare(a, b, 2)
 }
