@@ -88,7 +88,7 @@ impl BVH_Node {
     }
 }
 
-fn box_compare(a: &impl Hitable, b: &impl Hitable, axis: usize) -> Ordering {
+fn box_compare(a: &impl Hitable + ?Sized, b: &impl Hitable + ?Sized, axis: usize) -> Ordering {
     let box_a = a.bounding_box(0.0, 0.0);
     let box_b = b.bounding_box(0.0, 0.0);
 
@@ -106,12 +106,12 @@ fn box_compare(a: &impl Hitable, b: &impl Hitable, axis: usize) -> Ordering {
     }
 }
 
-fn box_x_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
+fn box_x_compare(a: &impl Hitable + ?Sized, b: &impl Hitable + ?Sized) -> Ordering {
     box_compare(a, b, 0)
 }
-fn box_y_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
+fn box_y_compare(a: &impl Hitable + ?Sized, b: &impl Hitable + ?Sized) -> Ordering {
     box_compare(a, b, 1)
 }
-fn box_z_compare(a: &impl Hitable, b: &impl Hitable) -> Ordering {
+fn box_z_compare(a: &impl Hitable + ?Sized, b: &impl Hitable + ?Sized) -> Ordering {
     box_compare(a, b, 2)
 }
