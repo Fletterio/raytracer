@@ -51,15 +51,15 @@ impl BVH_Node {
         let out_left: Arc<dyn Hitable>;
         let out_right: Arc<dyn Hitable>;
         if 1 == object_span {
-            out_left = Arc::new(objects[0]);
-            out_right = Arc::new(objects[0]);
+            out_left = Arc::clone(&objects[0]);
+            out_right = Arc::clone(&objects[0]);
         } else if 2 == object_span {
             if Ordering::Less == comparator(&objects[0], &objects[1]) {
-                out_left = Arc::new(objects[0]);
-                out_right = Arc::new(objects[1]);
+                out_left = Arc::clone(&objects[0]);
+                out_right = Arc::clone(&objects[1]);
             } else {
-                out_left = Arc::new(objects[1]);
-                out_right = Arc::new(objects[0]);
+                out_left = Arc::clone(&objects[1]);
+                out_right = Arc::clone(&objects[0]);
             }
         } else {
             objects.sort_by(comparator);
