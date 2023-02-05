@@ -7,6 +7,7 @@ mod image_gen;
 mod ray;
 mod renderer;
 mod rtweekend;
+mod texture;
 mod vec3;
 
 fn main() {

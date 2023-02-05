@@ -1,16 +1,21 @@
 use super::*;
-use rand::distributions::{Distribution, Uniform};
+use crate::texture::*;
 
-#[derive(Copy, Clone, PartialEq, Debug)]
+#[derive(Clone)]
 pub struct Lambertian {
-    pub albedo: Color,
+    pub albedo: Arc<dyn Texture>,
 }
 
 //constructors
 
 impl Lambertian {
-    pub fn new(a: Color) -> Lambertian {
+    pub fn new(a: Arc<dyn Texture>) -> Lambertian {
         Lambertian { albedo: a }
+    }
+    pub fn from_color(c: Color) -> Self {
+        Lambertian {
+            albedo: Arc::new(SolidColor::from(c)),
+        }
     }
 }
 
@@ -26,7 +31,7 @@ impl Material for Lambertian {
         }
 
         let scattered = Ray::new(rec.p, scatter_direction, r_in.time);
-        let attenuation = self.albedo;
+        let attenuation = self.albedo.value(rec.u, rec.v, &rec.p);
         Some((attenuation, scattered))
     }
 }

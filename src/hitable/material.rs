@@ -1,6 +1,7 @@
 use super::HitRecord;
 use crate::ray::Ray;
 use crate::vec3::{Color, Vec3};
+use std::sync::Arc;
 
 pub mod dielectric;
 pub mod lambertian;

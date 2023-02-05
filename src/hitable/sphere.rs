@@ -1,5 +1,5 @@
 use super::{material::Material, HitRecord, Hitable, AABB};
-use crate::rtweekend::{Point3, Ray, Vec3};
+use crate::rtweekend::{Point3, Ray, Vec3, PI};
 use std::sync::Arc;
 
 pub struct Sphere {
@@ -43,12 +43,15 @@ impl Hitable for Sphere {
         }
         let impact_point = r.at(root);
         let outward_normal = (1.0 / self.radius) * (impact_point - self.centre);
+        let (a, b) = self.get_uv(&outward_normal);
         let mut hit_record = HitRecord {
             t: root,
             p: impact_point,
             normal: outward_normal,
             front_face: true,
             material: Arc::clone(&self.material),
+            u: a,
+            v: b,
         };
         hit_record.set_face_normal(r, &outward_normal);
         return Some(hit_record);
@@ -59,5 +62,22 @@ impl Hitable for Sphere {
             self.centre - Vec3::new(self.radius, self.radius, self.radius),
             self.centre + Vec3::new(self.radius, self.radius, self.radius),
         ))
+    }
+}
+
+//surface coorindate functions
+impl Sphere {
+    fn get_uv(
+        &self,
+        p: &Point3, //p is a point on a sphere of radius one centered at the origin
+    ) -> (f32, f32) //returns u,v where
+                    //u is the angle (normalized) between x and z coordinates around the y axis taken from x = -1
+                    //v is the angle (normalized) of the point's hight in spherical coordinates
+    {
+        let [x, y, z] = p.as_array();
+        let theta = -y.acos();
+        let phi = (-z).atan2(x) + PI;
+
+        (phi / (2.0 * PI), theta / PI)
     }
 }

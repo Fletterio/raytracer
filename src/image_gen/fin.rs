@@ -13,20 +13,20 @@ use std::io::{stdout, Write};
 //use std::rc::Rc;
 use crate::camera::Camera;
 use crate::renderer::*;
+use crate::texture::{checker::CheckerTexture, SolidColor, Texture};
 use std::sync::Arc;
 
 fn random_scene() -> HitableList {
     let mut world = HitableList::new(vec![]);
 
-    let ground_material = Arc::new(Lambertian::new(Color::new(
-        1.0,
-        228.0 / 255.0,
-        181.0 / 255.0,
-    )));
+    let checkerboard: Arc<CheckerTexture> = Arc::new(CheckerTexture::from_colors(
+        Color::new(0.2, 0.3, 0.1),
+        Color::new(0.9, 0.9, 0.9),
+    ));
     world.add(Arc::new(Sphere::new(
         Point3::new(0.0, -1000.0, 0.0),
         1000.0,
-        ground_material,
+        Arc::new(Lambertian::new(checkerboard)),
     )));
     for a in -11..11 {
         for b in -11..11 {
@@ -43,7 +43,7 @@ fn random_scene() -> HitableList {
                 if choose_mat < 0.8 {
                     //diffuse
                     let albedo = Color::random() * Color::random();
-                    sphere_material = Arc::new(Lambertian::new(albedo));
+                    sphere_material = Arc::new(Lambertian::new(Arc::new(SolidColor::from(albedo))));
                     let center2 = center + Vec3::new(0.0, random_double_between(0.0, 0.5), 0.0);
                     world.add(Arc::new(MovingSphere::new(
                         center,
@@ -74,7 +74,9 @@ fn random_scene() -> HitableList {
         glass,
     )));
 
-    let lambert = Arc::new(Lambertian::new(Color::new(0.8, 0.1, 0.7)));
+    let lambert = Arc::new(Lambertian::new(Arc::new(SolidColor::from(Color::new(
+        0.8, 0.1, 0.7,
+    )))));
     world.add(Arc::new(Sphere::new(
         Point3::new(-4.0, 1.0, 0.0),
         1.0,

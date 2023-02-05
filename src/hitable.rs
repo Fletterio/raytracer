@@ -16,6 +16,8 @@ pub struct HitRecord {
     pub normal: Vec3, //surface normal at point of impact
     pub front_face: bool,
     pub material: Arc<dyn Material>, //material hit
+    pub u: f32,                      //u and v hold surface coordinates for the hit
+    pub v: f32,                      //(we work with normalized surface coordinates to [0,1])
 }
 
 //determine which face we hit
