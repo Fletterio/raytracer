@@ -13,7 +13,7 @@ pub struct Perlin {
 //constructors
 impl Perlin {
     pub fn new() -> Self {
-        let mut rf: [f32; POINT_COUNT];
+        let mut rf: [f32; POINT_COUNT] = [0.0; POINT_COUNT];
         for f in rf.iter_mut() {
             *f = random_double();
         }
@@ -43,7 +43,7 @@ impl Perlin {
 }
 
 fn perlin_generate_perm() -> [i32; POINT_COUNT] {
-    let mut p: [i32; POINT_COUNT];
+    let mut p: [i32; POINT_COUNT] = [0; POINT_COUNT];
 
     for i in 0..POINT_COUNT {
         p[i] = i as i32;
@@ -57,6 +57,6 @@ fn perlin_generate_perm() -> [i32; POINT_COUNT] {
 fn permute(p: &mut [i32]) {
     for i in (1..p.len()).rev() {
         let target = random_int(0, i as i32) as usize;
-        swap(&mut p[i], &mut p[target])
+        p.swap(i, target);
     }
 }
