@@ -10,3 +10,4 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 rayon = "1.6.1"
+stb = "0.3.2"
