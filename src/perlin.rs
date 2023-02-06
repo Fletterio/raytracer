@@ -30,8 +30,8 @@ impl Perlin {
     }
 }
 
-//generate moise
 impl Perlin {
+    //generate noise
     pub fn noise(&self, p: &Point3) -> f32 {
         let [x, y, z] = p.as_array();
 
@@ -59,6 +59,25 @@ impl Perlin {
             }
         }
         perlin_interp(c, u, v, w)
+    }
+
+    //turbulence
+    pub fn turb(
+        &self,
+        p: &Point3,
+        depth: i32, //by default choose 7
+    ) -> f32 {
+        let mut accum = 0.0;
+        let mut temp_p = *p;
+        let mut weight = 1.0;
+
+        for i in 0..depth {
+            accum += weight * self.noise(&temp_p);
+            weight *= 0.5;
+            temp_p *= 2.0;
+        }
+
+        accum.abs()
     }
 }
 
@@ -100,7 +119,7 @@ fn trilinear_interpolation(c: [[[f32; 2]; 2]; 2], u: f32, v: f32, w: f32) -> f32
 fn perlin_interp(c: [[[Vec3; 2]; 2]; 2], u: f32, v: f32, w: f32) -> f32 {
     let uu = u * u * (3.0 - 2.0 * u); //Hermitian Smoothing
     let vv = v * v * (3.0 - 2.0 * v);
-    let ww = w * w * (3.0 - 2.0 * v);
+    let ww = w * w * (3.0 - 2.0 * w);
     let mut accum = 0.0;
 
     for i in 0..2 {
