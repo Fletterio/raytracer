@@ -9,7 +9,7 @@ use crate::texture::{noise::NoiseTexture, Texture};
 use std::sync::Arc;
 
 pub fn perlin_spheres() -> HitableList {
-    let objects = HitableList::new(Vec::new());
+    let mut objects = HitableList::new(Vec::new());
 
     let pertext: Arc<dyn Texture> = Arc::new(NoiseTexture::new());
     objects.add(Arc::new(Sphere::new(
