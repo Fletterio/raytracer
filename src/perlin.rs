@@ -5,9 +5,9 @@ const POINT_COUNT: usize = 256;
 
 pub struct Perlin {
     pub ranfloat: [f32; POINT_COUNT],
-    pub perm_x: [i32; POINT_COUNT],
-    pub perm_y: [i32; POINT_COUNT],
-    pub perm_z: [i32; POINT_COUNT],
+    pub perm_x: [usize; POINT_COUNT],
+    pub perm_y: [usize; POINT_COUNT],
+    pub perm_z: [usize; POINT_COUNT],
 }
 
 //constructors
@@ -34,19 +34,35 @@ impl Perlin {
 impl Perlin {
     pub fn noise(&self, p: &Point3) -> f32 {
         let [x, y, z] = p.as_array();
-        let i = (4.0 * x).round() as i32 & 255;
-        let j = (4.0 * y).round() as i32 & 255;
-        let k = (4.0 * z).round() as i32 & 255;
-        self.ranfloat
-            [(self.perm_x[i as usize] ^ self.perm_y[j as usize] ^ self.perm_z[k as usize]) as usize]
+
+        let u = x - x.floor();
+        let v = y - y.floor();
+        let w = z - z.floor();
+
+        let i = x.floor() as usize;
+        let j = y.floor() as usize;
+        let k = z.floor() as usize;
+
+        let mut c = [[[0f32; 2]; 2]; 2];
+
+        for di in 0..2 {
+            for dj in 0..2 {
+                for dk in 0..2 {
+                    c[di][dj][dk] = self.ranfloat[self.perm_x[(i + di) & 255]
+                        ^ self.perm_y[(j + dj) & 255]
+                        ^ self.perm_z[(k + dk) & 255]];
+                }
+            }
+        }
+        trilinear_interpolation(c, u, v, w)
     }
 }
 
-fn perlin_generate_perm() -> [i32; POINT_COUNT] {
-    let mut p: [i32; POINT_COUNT] = [0; POINT_COUNT];
+fn perlin_generate_perm() -> [usize; POINT_COUNT] {
+    let mut p: [usize; POINT_COUNT] = [0; POINT_COUNT];
 
     for i in 0..POINT_COUNT {
-        p[i] = i as i32;
+        p[i] = i;
     }
 
     permute(&mut p);
@@ -54,9 +70,24 @@ fn perlin_generate_perm() -> [i32; POINT_COUNT] {
     p
 }
 
-fn permute(p: &mut [i32]) {
+fn permute(p: &mut [usize]) {
     for i in (1..p.len()).rev() {
         let target = random_int(0, i as i32) as usize;
         p.swap(i, target);
     }
+}
+
+fn trilinear_interpolation(c: [[[f32; 2]; 2]; 2], u: f32, v: f32, w: f32) -> f32 {
+    let mut accum = 0.0;
+    for i in 0..2 {
+        for j in 0..2 {
+            for k in 0..2 {
+                accum += (i as f32 * u + (1.0 - i as f32) * (1.0 - u))
+                    * (j as f32 * v + (1.0 - j as f32) * (1.0 - v))
+                    * (k as f32 * w + (1.0 - k as f32) * (1.0 - w))
+                    * c[i][j][k];
+            }
+        }
+    }
+    accum
 }
