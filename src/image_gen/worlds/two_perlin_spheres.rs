@@ -11,7 +11,7 @@ use std::sync::Arc;
 pub fn perlin_spheres() -> HitableList {
     let mut objects = HitableList::new(Vec::new());
 
-    let pertext: Arc<dyn Texture> = Arc::new(NoiseTexture::new());
+    let pertext: Arc<dyn Texture> = Arc::new(NoiseTexture::new(4.0));
     objects.add(Arc::new(Sphere::new(
         Point3::new(0.0, -1000.0, 0.0),
         1000.0,

@@ -19,6 +19,9 @@ use crate::texture::{checker::CheckerTexture, SolidColor, Texture};
 use std::sync::Arc;
 
 pub fn print() -> std::io::Result<()> {
+    //output names
+    let out: &str;
+
     //Image parameters
     const ASPECT_RATIO: f32 = 16.0 / 9.0;
     const IMAGE_WIDTH: i32 = 1920;
@@ -41,6 +44,7 @@ pub fn print() -> std::io::Result<()> {
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
             aperture = 0.1;
+            out = "balls";
         }
 
         2 => {
@@ -48,12 +52,14 @@ pub fn print() -> std::io::Result<()> {
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
+            out = "two spheres";
         }
         3 | _ => {
             world = perlin_spheres();
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
+            out = "perlin spheres";
         }
     };
 
@@ -80,7 +86,7 @@ pub fn print() -> std::io::Result<()> {
         MAX_DEPTH,
         &world,
         &cam,
-        "final",
+        out,
     );
 
     //mandatory return
