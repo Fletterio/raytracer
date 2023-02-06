@@ -12,5 +12,5 @@ mod texture;
 mod vec3;
 
 fn main() {
-    image_gen::fin::print();
+    image_gen::switch::print();
 }

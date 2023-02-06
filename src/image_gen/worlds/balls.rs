@@ -5,18 +5,11 @@ use crate::hitable::{
     sphere::Sphere,
     Hitable,
 };
-use crate::rtweekend::*;
-use std::fs;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{stdout, Write};
-//use std::rc::Rc;
-use crate::camera::Camera;
-use crate::renderer::*;
+use crate::rtweekend::{random_double, random_double_between, Color, Point3, Vec3};
 use crate::texture::{checker::CheckerTexture, SolidColor, Texture};
 use std::sync::Arc;
 
-fn random_scene() -> HitableList {
+pub fn random_scene() -> HitableList {
     let mut world = HitableList::new(vec![]);
 
     let checkerboard: Arc<CheckerTexture> = Arc::new(CheckerTexture::from_colors(
@@ -95,48 +88,4 @@ fn random_scene() -> HitableList {
     )));
 
     world
-}
-
-pub fn print() -> std::io::Result<()> {
-    //Image parameters
-    const ASPECT_RATIO: f32 = 16.0 / 9.0;
-    const IMAGE_WIDTH: i32 = 1920;
-    let IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f32 / ASPECT_RATIO).round() as i32;
-    const SAMPLES_PER_PIXEL: i32 = 500;
-    const MAX_DEPTH: i32 = 50;
-
-    //World setup
-    let world = random_scene();
-
-    //Camera
-
-    let lookfrom = Point3::new(13.0, 2.0, 3.0);
-    let lookat = Point3::new(0.0, 0.0, 0.0);
-    let dist_to_focus = 10.0;
-    let aperture = 0.1;
-
-    let cam = Camera::new(
-        lookfrom,
-        lookat,
-        UP,
-        20.0,
-        ASPECT_RATIO,
-        aperture,
-        dist_to_focus,
-        0.0,
-        1.0,
-    );
-
-    render(
-        IMAGE_WIDTH,
-        IMAGE_HEIGHT,
-        SAMPLES_PER_PIXEL,
-        MAX_DEPTH,
-        &world,
-        &cam,
-        "final",
-    );
-
-    //mandatory return
-    Ok(())
 }
