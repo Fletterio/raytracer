@@ -43,8 +43,14 @@ pub fn print() -> std::io::Result<()> {
             aperture = 0.1;
         }
 
-        2 | _ => {
+        2 => {
             world = spheres();
+            lookfrom = Point3::new(13.0, 2.0, 3.0);
+            lookat = Point3::new(0.0, 0.0, 0.0);
+            vfov = 20.0;
+        }
+        3 | _ => {
+            world = perlin_spheres();
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
