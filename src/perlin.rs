@@ -39,18 +39,18 @@ impl Perlin {
         let v = y - y.floor();
         let w = z - z.floor();
 
-        let i = x.floor() as usize;
-        let j = y.floor() as usize;
-        let k = z.floor() as usize;
+        let i = x.floor() as i32;
+        let j = y.floor() as i32;
+        let k = z.floor() as i32;
 
         let mut c = [[[0f32; 2]; 2]; 2];
 
         for di in 0..2 {
             for dj in 0..2 {
                 for dk in 0..2 {
-                    c[di][dj][dk] = self.ranfloat[self.perm_x[(i + di) & 255]
-                        ^ self.perm_y[(j + dj) & 255]
-                        ^ self.perm_z[(k + dk) & 255]];
+                    c[di][dj][dk] = self.ranfloat[self.perm_x[((i + di as i32) & 255) as usize]
+                        ^ self.perm_y[((j + dj as i32) & 255) as usize]
+                        ^ self.perm_z[((k + dk as i32) & 255) as usize]];
                 }
             }
         }
