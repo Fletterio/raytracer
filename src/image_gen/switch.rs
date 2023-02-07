@@ -63,7 +63,7 @@ pub fn print() -> std::io::Result<()> {
         }
         4 | _ => {
             world = globe();
-            lookfrom = Point3::new(0.0, 0.0, 4.0);
+            lookfrom = Point3::new(0.0, 0.0, 10.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
             out = "earth"
