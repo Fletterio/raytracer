@@ -75,7 +75,7 @@ impl Sphere {
                     //v is the angle (normalized) of the point's hight in spherical coordinates
     {
         let [x, y, z] = p.as_array();
-        let theta = -y.acos();
+        let theta = (-y).acos();
         let phi = (-z).atan2(x) + PI;
 
         (phi / (2.0 * PI), theta / PI)
