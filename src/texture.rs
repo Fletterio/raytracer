@@ -1,4 +1,5 @@
 pub mod checker;
+pub mod image;
 pub mod noise;
 
 use crate::rtweekend::{Color, Point3, Vec3};
