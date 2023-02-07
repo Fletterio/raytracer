@@ -66,6 +66,7 @@ pub fn print() -> std::io::Result<()> {
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
+            out = "earth"
         }
     };
 

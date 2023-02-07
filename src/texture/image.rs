@@ -15,7 +15,7 @@ pub struct ImageTexture {
 //constructor
 impl ImageTexture {
     pub fn new(f: &File, format: ImageFormat) -> Self {
-        let mut reader = BufReader::new(*f);
+        let mut reader = BufReader::new(*f.clone());
 
         let read_image = load(reader, format);
         match read_image {
@@ -40,8 +40,8 @@ impl Texture for ImageTexture {
         let rgb_image: &RgbImage = self.image.as_ref().unwrap();
 
         //We need to clamp u,v in normalized [0,1] coordinates
-        u = clamp(u, 0.0, 1.0);
-        v = 1.0 - clamp(v, 0.0, 1.0); //Flip v since image coordinates are traversed differently
+        let u = clamp(u, 0.0, 1.0);
+        let v = 1.0 - clamp(v, 0.0, 1.0); //Flip v since image coordinates are traversed differently
 
         let mut i = (u * rgb_image.width() as f32).round() as u32;
         let mut j = (v * rgb_image.height() as f32).round() as u32;
