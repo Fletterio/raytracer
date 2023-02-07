@@ -34,7 +34,7 @@ impl ImageTexture {
 impl Texture for ImageTexture {
     fn value(&self, u: f32, v: f32, p: &Point3) -> Color {
         if self.image.is_none() {
-            return Color::new(0.0, 1.0, 1.0); //if there is no texture, print cyan as debugging aid
+            return Color::new(1.0, 0.0, 0.0); //if there is no texture, print cyan as debugging aid
         }
 
         let rgb_image: &RgbImage = self.image.as_ref().unwrap();
