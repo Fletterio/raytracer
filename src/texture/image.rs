@@ -42,7 +42,7 @@ impl Texture for ImageTexture {
         //We need to clamp u,v in normalized [0,1] coordinates
         let u = clamp(u, 0.0, 1.0);
         //let v = 1.0 - clamp(v, 0.0, 1.0); //Flip v since image coordinates are traversed differently
-        let v = clamp(v, 0.0, 1.0);
+        let v = 1.0 - clamp(v, 0.0, 1.0);
 
         let mut i = (u * rgb_image.width() as f32).round() as u32;
         let mut j = (v * rgb_image.height() as f32).round() as u32;
