@@ -54,12 +54,18 @@ pub fn print() -> std::io::Result<()> {
             vfov = 20.0;
             out = "two spheres";
         }
-        3 | _ => {
+        3 => {
             world = perlin_spheres();
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
             out = "perlin spheres";
+        }
+        4 | _ => {
+            world = globe();
+            lookfrom = Point3::new(13.0, 2.0, 3.0);
+            lookat = Point3::new(0.0, 0.0, 0.0);
+            vfov = 20.0;
         }
     };
 
