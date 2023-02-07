@@ -15,7 +15,8 @@ pub struct ImageTexture {
 //constructor
 impl ImageTexture {
     pub fn new(f: &File, format: ImageFormat) -> Self {
-        let mut reader = BufReader::new(*f.clone());
+        let path = *f.clone();
+        let mut reader = BufReader::new(path);
 
         let read_image = load(reader, format);
         match read_image {
