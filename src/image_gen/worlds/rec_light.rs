@@ -6,8 +6,10 @@ use crate::{
         xy_rect::XYRect,
     },
     rtweekend::{Color, Point3},
-    texture::{noise::NoiseTexture, Texture},
+    texture::{image::ImageTexture, noise::NoiseTexture, Texture},
 };
+use image::ImageFormat;
+use std::fs::File;
 use std::sync::Arc;
 
 pub fn light() -> HitableList {
@@ -33,6 +35,15 @@ pub fn light() -> HitableList {
         Point3::new(0.0, 20.0, 0.0),
         10.0,
         redlight,
+    )));
+
+    let moon_path = File::open("textures/moon.png").unwrap();
+
+    let moon = Arc::new(ImageTexture::new(&moon_path, ImageFormat::Png));
+    objects.add(Arc::new(Sphere::new(
+        Point3::new(3.0, 2.3, 3.0),
+        1.5,
+        Arc::new(Lambertian::new(moon)),
     )));
 
     objects
