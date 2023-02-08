@@ -72,7 +72,7 @@ pub fn print() -> std::io::Result<()> {
         }
         6 | _ => {
             world = cornell_box();
-            aspect_ratio = 1.0;
+            image_height = 600;
             image_width = 600;
             samples_per_pixel = 200;
             background = Color::new(0.0, 0.0, 0.0);
