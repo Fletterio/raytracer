@@ -21,9 +21,7 @@ pub fn cornell_box() -> HitableList {
 
     let light = Arc::new(DiffuseLight::from_color(Color::new(15.0, 15.0, 15.0)));
 
-    objects.add(Arc::new(YZRect::new(
-        0.0, 555.0, 555.0, 555.0, 555.0, green,
-    )));
+    objects.add(Arc::new(YZRect::new(0.0, 555.0, 0.0, 555.0, 555.0, green)));
     objects.add(Arc::new(YZRect::new(0.0, 555.0, 0.0, 555.0, 0.0, red)));
     objects.add(Arc::new(XZRect::new(
         213.0, 343.0, 227.0, 332.0, 554.0, light,
