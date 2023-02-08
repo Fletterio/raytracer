@@ -2,7 +2,7 @@ pub mod checker;
 pub mod image;
 pub mod noise;
 
-use crate::rtweekend::{Color, Point3, Vec3};
+use crate::rtweekend::{Color, Point3};
 
 pub trait Texture: Sync + Send {
     fn value(&self, u: f32, v: f32, p: &Point3) -> Color;

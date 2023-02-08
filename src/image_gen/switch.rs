@@ -1,33 +1,21 @@
 use super::*;
 
-use crate::hitable::{
-    hitable_list::HitableList,
-    material::{dielectric::Dielectric, lambertian::Lambertian, metal::Metal, Material},
-    moving_sphere::MovingSphere,
-    sphere::Sphere,
-    Hitable,
-};
+use crate::hitable::hitable_list::HitableList;
 use crate::rtweekend::*;
-use std::fs;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{stdout, Write};
 //use std::rc::Rc;
 use crate::camera::Camera;
 use crate::renderer::*;
-use crate::texture::{checker::CheckerTexture, SolidColor, Texture};
-use std::sync::Arc;
 
 pub fn print() -> std::io::Result<()> {
     //output names
     let out: &str;
 
     //Image parameters
-    let aspect_ratio: f32 = 16.0 / 9.0;
-    let image_width: i32 = 1920;
-    let image_height: i32 = (image_width as f32 / aspect_ratio).round() as i32;
-    let samples_per_pixel: i32 = 500;
-    let max_depth: i32 = 50;
+    let mut aspect_ratio: f32 = 16.0 / 9.0;
+    let mut image_width: i32 = 1920;
+    let mut image_height: i32 = (image_width as f32 / aspect_ratio).round() as i32;
+    let mut samples_per_pixel: i32 = 500;
+    let mut max_depth: i32 = 50;
 
     //World setup
     let world: HitableList = HitableList::new(vec![]);
@@ -80,6 +68,7 @@ pub fn print() -> std::io::Result<()> {
             lookfrom = Point3::new(26.0, 3.0, 6.0);
             lookat = Point3::new(0.0, 2.0, 0.0);
             vfov = 20.0;
+            out = "light";
         }
     };
 

@@ -3,10 +3,9 @@ use crate::hitable::{
     material::{dielectric::Dielectric, lambertian::Lambertian, metal::Metal, Material},
     moving_sphere::MovingSphere,
     sphere::Sphere,
-    Hitable,
 };
 use crate::rtweekend::{random_double, random_double_between, Color, Point3, Vec3};
-use crate::texture::{checker::CheckerTexture, SolidColor, Texture};
+use crate::texture::{checker::CheckerTexture, SolidColor};
 use std::sync::Arc;
 
 pub fn random_scene() -> HitableList {

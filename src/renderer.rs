@@ -1,12 +1,10 @@
 use crate::camera::Camera;
-use crate::hitable::{material::Material, Hitable};
+use crate::hitable::Hitable;
 use crate::rtweekend::*;
 use rayon::prelude::*;
 use std::fs;
 use std::fs::File;
-use std::io::prelude::*;
 use std::io::{stdout, Write};
-use std::sync::Arc;
 
 pub fn ray_color(r: &Ray, background: &Color, world: &impl Hitable, depth: i32) -> Color {
     //if we exceed the number of bounces, don't add any Color

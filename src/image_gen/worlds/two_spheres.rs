@@ -1,9 +1,4 @@
-use crate::hitable::{
-    hitable_list::HitableList,
-    material::{lambertian::Lambertian, Material},
-    sphere::Sphere,
-    Hitable,
-};
+use crate::hitable::{hitable_list::HitableList, material::lambertian::Lambertian, sphere::Sphere};
 use crate::rtweekend::{Color, Point3};
 use crate::texture::{checker::CheckerTexture, Texture};
 use std::sync::Arc;

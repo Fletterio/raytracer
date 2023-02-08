@@ -1,7 +1,6 @@
 use super::Material;
 use crate::hitable::HitRecord;
 use crate::rtweekend::{random_double, Color, Ray, Vec3};
-use rand::distributions::{Distribution, Uniform};
 
 pub struct Dielectric {
     pub ir: f32, //index of refraction

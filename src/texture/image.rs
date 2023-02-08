@@ -1,10 +1,6 @@
 use super::Texture;
-use crate::perlin::Perlin;
 use crate::rtweekend::{clamp, Color, Point3};
-use image::{
-    error::{ImageError, ImageResult},
-    load, DynamicImage, ImageBuffer, ImageFormat, Rgb, RgbImage,
-};
+use image::{load, ImageFormat, RgbImage};
 use std::fs::File;
 use std::io::BufReader;
 
@@ -15,7 +11,7 @@ pub struct ImageTexture {
 //constructor
 impl ImageTexture {
     pub fn new(f: &File, format: ImageFormat) -> Self {
-        let mut reader = BufReader::new(f);
+        let reader = BufReader::new(f);
 
         let read_image = load(reader, format);
         match read_image {

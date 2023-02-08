@@ -1,6 +1,6 @@
 use crate::rtweekend::{Point3, Ray};
 use std::mem;
-use std::simd::{f32x4, SimdFloat};
+use std::simd::SimdFloat;
 
 #[derive(Copy, Clone)]
 pub struct AABB {

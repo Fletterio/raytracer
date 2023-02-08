@@ -85,13 +85,12 @@ impl Vec3 {
     //returns a random vector in the (open) unit sphere
     #[inline]
     pub fn random_in_unit_sphere() -> Vec3 {
-        while true {
+        loop {
             let p = Self::random_between(-1.0, 1.0);
             if p.sq_len() < 1.0 {
                 return p;
             }
         }
-        return Self::new(0.0, 0.0, 0.0);
     }
     #[inline]
     pub fn random_unit_vector() -> Vec3 {
@@ -109,7 +108,7 @@ impl Vec3 {
 
     #[inline]
     pub fn random_in_unit_disk() -> Vec3 {
-        while true {
+        loop {
             let p = Vec3::new(
                 random_double_between(-1.0, 1.0),
                 random_double_between(-1.0, 1.0),
@@ -119,7 +118,6 @@ impl Vec3 {
                 return p;
             };
         }
-        return Self::new(0.0, 0.0, 0.0);
     }
 }
 

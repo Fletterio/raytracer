@@ -1,6 +1,6 @@
 use crate::hitable::{material::Material, HitRecord};
 use crate::rtweekend::{Color, Ray, Vec3};
-use crate::texture::{SolidColor, Texture};
+use crate::texture::Texture;
 use std::sync::Arc;
 
 #[derive(Clone)]

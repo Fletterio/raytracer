@@ -4,7 +4,7 @@ use crate::rtweekend::{random_int, Ray};
 use std::cmp::Ordering;
 use std::sync::Arc;
 
-pub struct BVH_Node {
+pub struct BVHNode {
     container: AABB,
     left: Arc<dyn Hitable>,
     right: Arc<dyn Hitable>,
@@ -12,7 +12,7 @@ pub struct BVH_Node {
 
 //relaying constructors to the end since they're a bit more complicated
 
-impl Hitable for BVH_Node {
+impl Hitable for BVHNode {
     fn bounding_box(&self, time0: f32, time1: f32) -> Option<AABB> {
         Some(self.container)
     }
@@ -38,7 +38,7 @@ impl Hitable for BVH_Node {
 }
 
 //constructors
-impl BVH_Node {
+impl BVHNode {
     pub fn new(src_objects: &[Arc<dyn Hitable>], time0: f32, time1: f32) -> Self {
         let object_span = src_objects.len();
         let mut objects = Vec::with_capacity(object_span);
@@ -66,8 +66,8 @@ impl BVH_Node {
             objects.sort_by(comparator);
 
             let mid = object_span / 2;
-            out_left = Arc::new(BVH_Node::new(&objects[0..mid], time0, time1));
-            out_right = Arc::new(BVH_Node::new(&objects[mid..], time0, time1));
+            out_left = Arc::new(BVHNode::new(&objects[0..mid], time0, time1));
+            out_right = Arc::new(BVHNode::new(&objects[mid..], time0, time1));
         }
 
         let box_left = out_left.bounding_box(time0, time1);
@@ -81,7 +81,7 @@ impl BVH_Node {
             }
         };
 
-        BVH_Node {
+        BVHNode {
             container: out_box,
             left: out_left,
             right: out_right,

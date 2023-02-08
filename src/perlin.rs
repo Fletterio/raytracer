@@ -1,5 +1,4 @@
-use crate::rtweekend::{random_double, random_int, Point3, Vec3};
-use std::mem::swap;
+use crate::rtweekend::{random_int, Point3, Vec3};
 
 const POINT_COUNT: usize = 256;
 

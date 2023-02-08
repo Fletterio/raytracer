@@ -1,8 +1,5 @@
-use super::{
-    material::{lambertian::Lambertian, Material},
-    HitRecord, Hitable, AABB,
-};
-use crate::rtweekend::{Point3, Ray, Vec3};
+use super::{HitRecord, Hitable, AABB};
+use crate::rtweekend::Ray;
 use std::sync::Arc;
 
 pub struct HitableList {
