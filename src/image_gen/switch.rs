@@ -74,6 +74,7 @@ pub fn print() -> std::io::Result<()> {
             world = cornell_box();
             image_height = 600;
             image_width = 600;
+            aspect_ratio = 1.0;
             samples_per_pixel = 200;
             background = Color::new(0.0, 0.0, 0.0);
             lookfrom = Point3::new(278.0, 278.0, -800.0);
@@ -91,7 +92,7 @@ pub fn print() -> std::io::Result<()> {
         lookfrom,
         lookat,
         UP,
-        20.0,
+        vfov,
         aspect_ratio,
         aperture,
         dist_to_focus,
