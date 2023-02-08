@@ -32,7 +32,7 @@ pub fn light() -> HitableList {
     objects.add(Arc::new(Sphere::new(
         Point3::new(0.0, 6.0, 0.0),
         2.5,
-        Arc::new(Lambertian::new(redlight)),
+        redlight,
     )));
 
     objects
