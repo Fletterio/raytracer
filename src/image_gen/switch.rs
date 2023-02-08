@@ -23,23 +23,25 @@ pub fn print() -> std::io::Result<()> {
     let out: &str;
 
     //Image parameters
-    const ASPECT_RATIO: f32 = 16.0 / 9.0;
-    const IMAGE_WIDTH: i32 = 1920;
-    let IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f32 / ASPECT_RATIO).round() as i32;
-    const SAMPLES_PER_PIXEL: i32 = 500;
-    const MAX_DEPTH: i32 = 50;
+    let aspect_ratio: f32 = 16.0 / 9.0;
+    let image_width: i32 = 1920;
+    let image_height: i32 = (image_width as f32 / aspect_ratio).round() as i32;
+    let samples_per_pixel: i32 = 500;
+    let max_depth: i32 = 50;
 
     //World setup
-    let world: HitableList;
+    let world: HitableList = HitableList::new(vec![]);
 
     let lookfrom: Point3;
     let lookat: Point3;
     let mut vfov = 40.0;
     let mut aperture = 0.0;
+    let mut background = Color::new(0.0, 0.0, 0.0);
 
     match 0 {
         1 => {
             world = random_scene();
+            background = Color::new(0.7, 0.8, 1.0);
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
@@ -49,6 +51,7 @@ pub fn print() -> std::io::Result<()> {
 
         2 => {
             world = spheres();
+            background = Color::new(0.7, 0.8, 1.0);
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
@@ -56,17 +59,27 @@ pub fn print() -> std::io::Result<()> {
         }
         3 => {
             world = perlin_spheres();
+            background = Color::new(0.7, 0.8, 1.0);
             lookfrom = Point3::new(13.0, 2.0, 3.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
             out = "perlin spheres";
         }
-        4 | _ => {
+        4 => {
             world = globe();
+            background = Color::new(0.7, 0.8, 1.0);
             lookfrom = Point3::new(0.0, 0.0, 10.0);
             lookat = Point3::new(0.0, 0.0, 0.0);
             vfov = 20.0;
             out = "earth"
+        }
+        5 | _ => {
+            world = light();
+            samples_per_pixel = 500;
+            background = Color::new(0.0, 0.0, 0.0);
+            lookfrom = Point3::new(26.0, 3.0, 6.0);
+            lookat = Point3::new(0.0, 2.0, 0.0);
+            vfov = 20.0;
         }
     };
 
@@ -79,7 +92,7 @@ pub fn print() -> std::io::Result<()> {
         lookat,
         UP,
         20.0,
-        ASPECT_RATIO,
+        aspect_ratio,
         aperture,
         dist_to_focus,
         0.0,
@@ -87,11 +100,12 @@ pub fn print() -> std::io::Result<()> {
     );
 
     render(
-        IMAGE_WIDTH,
-        IMAGE_HEIGHT,
-        SAMPLES_PER_PIXEL,
-        MAX_DEPTH,
+        image_width,
+        image_height,
+        samples_per_pixel,
+        max_depth,
         &world,
+        &background,
         &cam,
         out,
     );
