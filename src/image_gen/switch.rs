@@ -18,7 +18,7 @@ pub fn print() -> std::io::Result<()> {
     let mut max_depth: i32 = 50;
 
     //World setup
-    let world: HitableList = HitableList::new(vec![]);
+    let world: HitableList;
 
     let lookfrom: Point3;
     let lookat: Point3;
