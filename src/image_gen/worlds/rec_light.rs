@@ -2,8 +2,8 @@ use crate::{
     hitable::{
         hitable_list::HitableList,
         material::{diffuse_light::DiffuseLight, lambertian::Lambertian},
+        rectangles::XYRect,
         sphere::Sphere,
-        xy_rect::XYRect,
     },
     rtweekend::{Color, Point3},
     texture::{image::ImageTexture, noise::NoiseTexture, Texture},
@@ -27,8 +27,8 @@ pub fn light() -> HitableList {
         Arc::new(Lambertian::new(Arc::clone(&pertext))),
     )));
 
-    //let difflight = Arc::new(DiffuseLight::from_color(Color::new(4.0, 4.0, 4.0)));
-    //objects.add(Arc::new(XYRect::new(3.0, 5.0, 1.0, 3.0, -2.0, difflight)));
+    let difflight = Arc::new(DiffuseLight::from_color(Color::new(4.0, 4.0, 4.0)));
+    objects.add(Arc::new(XYRect::new(3.0, 5.0, 1.0, 3.0, -2.0, difflight)));
 
     let redlight = Arc::new(DiffuseLight::from_color(Color::new(8.0, 0.0, 0.0)));
     objects.add(Arc::new(Sphere::new(

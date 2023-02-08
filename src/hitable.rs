@@ -1,8 +1,8 @@
 pub mod hitable_list;
 pub mod material;
 pub mod moving_sphere;
+pub mod rectangles;
 pub mod sphere;
-pub mod xy_rect;
 
 use crate::aabb::AABB;
 use crate::rtweekend::{Point3, Ray, Vec3};

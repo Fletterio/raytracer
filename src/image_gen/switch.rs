@@ -61,7 +61,7 @@ pub fn print() -> std::io::Result<()> {
             vfov = 20.0;
             out = "earth"
         }
-        5 | _ => {
+        5 => {
             world = light();
             samples_per_pixel = 500;
             background = Color::new(0.0, 0.0, 0.0);
@@ -69,6 +69,15 @@ pub fn print() -> std::io::Result<()> {
             lookat = Point3::new(0.0, 2.0, 0.0);
             vfov = 20.0;
             out = "light";
+        }
+        6 | _ => {
+            world = cornell_box();
+            aspect_ratio = 1.0;
+            background = Color::new(0.0, 0.0, 0.0);
+            lookfrom = Point3::new(278.0, 278.0, -800.0);
+            lookat = Point3::new(278.0, 278.0, 0.0);
+            vfov = 40.0;
+            out = "cornell";
         }
     };
 
