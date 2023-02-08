@@ -5,13 +5,15 @@ use crate::{
         sphere::Sphere,
         xy_rect::XYRect,
     },
-    texture::noise::NoiseTexture,
+    rtweekend::{Color, Point3},
+    texture::{noise::NoiseTexture, Texture},
 };
+use std::sync::Arc;
 
 pub fn light() -> HitableList {
     let mut objects = HitableList::new(vec![]);
 
-    let pertext = Arc::new(NoiseTexture::new(4));
+    let pertext: Arc<dyn Texture> = Arc::new(NoiseTexture::new(4.0));
     objects.add(Arc::new(Sphere::new(
         Point3::new(0.0, -1000.0, 0.0),
         1000.0,
