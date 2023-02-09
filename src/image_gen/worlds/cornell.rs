@@ -6,7 +6,7 @@ use crate::{
         material::{diffuse_light::DiffuseLight, lambertian::Lambertian, Material},
         solid_box::SolidBox,
     },
-    vec3::Color,
+    vec3::{Color, Point3},
 };
 
 use crate::hitable::rectangles::*;
