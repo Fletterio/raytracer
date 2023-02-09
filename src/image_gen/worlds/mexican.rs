@@ -3,16 +3,17 @@ use std::sync::Arc;
 use crate::{
     hitable::{
         hitable_list::HitableList,
-        image::ImageFormat,
         material::{diffuse_light::DiffuseLight, lambertian::Lambertian, Material},
+        rectangles::*,
         solid_box::SolidBox,
-        texture::image::ImageTexture,
     },
+    texture::image::ImageTexture,
     vec3::{Color, Point3},
 };
 
-use crate::hitable::rectangles::*;
 use std::fs::File;
+
+use image::ImageFormat;
 
 pub fn mexico() -> HitableList {
     let mut objects = HitableList::new(vec![]);
