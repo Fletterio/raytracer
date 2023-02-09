@@ -2,6 +2,7 @@ pub mod hitable_list;
 pub mod material;
 pub mod moving_sphere;
 pub mod rectangles;
+pub mod solid_box;
 pub mod sphere;
 
 use crate::aabb::AABB;
