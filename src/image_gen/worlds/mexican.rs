@@ -25,7 +25,7 @@ pub fn mexico() -> HitableList {
 
     let light = Arc::new(DiffuseLight::from_color(Color::new(15.0, 15.0, 15.0)));
 
-    let mexico_path = File::open("mexico.png").unwrap();
+    let mexico_path = File::open("textures/mexico.png").unwrap();
 
     let mexico = ImageTexture::new(&mexico_path, ImageFormat::Png);
 
