@@ -70,7 +70,7 @@ pub fn print() -> std::io::Result<()> {
             vfov = 20.0;
             out = "light";
         }
-        6 | _ => {
+        6 => {
             world = cornell_box();
             image_height = 1920;
             image_width = 1920;
@@ -81,6 +81,18 @@ pub fn print() -> std::io::Result<()> {
             lookat = Point3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
             out = "cornell";
+        }
+        7 | _ => {
+            world = mexico();
+            image_height = 1920;
+            image_width = 1920;
+            aspect_ratio = 1.0;
+            samples_per_pixel = 500;
+            background = Color::new(0.0, 0.0, 0.0);
+            lookfrom = Point3::new(278.0, 278.0, -800.0);
+            lookat = Point3::new(278.0, 278.0, 0.0);
+            vfov = 40.0;
+            out = "mexico";
         }
     };
 
