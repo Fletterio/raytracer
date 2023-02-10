@@ -5,7 +5,7 @@ use crate::hitable::HitRecord;
 use crate::rtweekend::Ray;
 use crate::{aabb::AABB, hitable::Hitable, rtweekend::deg_to_rad, vec3::Point3};
 
-pub struct RotateY {
+pub struct RotateZ {
     object: Arc<dyn Hitable>,
     sin_theta: f32,
     cos_theta: f32,
@@ -13,7 +13,7 @@ pub struct RotateY {
 }
 
 //constructors
-impl RotateY {
+impl RotateZ {
     pub fn new(
         obj: Arc<dyn Hitable>,
         angle: f32, //expressed in degrees
@@ -23,7 +23,7 @@ impl RotateY {
         let cos_t = radians.cos();
         let bbox_ = obj.bounding_box(0.0, 1.0);
         if bbox_.is_none() {
-            return RotateY {
+            return RotateZ {
                 object: obj,
                 sin_theta: sin_t,
                 cos_theta: cos_t,
@@ -50,7 +50,7 @@ impl RotateY {
                 }
             }
         }
-        RotateY {
+        RotateZ {
             object: obj,
             sin_theta: sin_t,
             cos_theta: cos_t,
@@ -59,7 +59,7 @@ impl RotateY {
     }
 }
 
-impl Hitable for RotateY {
+impl Hitable for RotateZ {
     fn bounding_box(&self, time0: f32, time1: f32) -> Option<AABB> {
         self.bbox
     }
