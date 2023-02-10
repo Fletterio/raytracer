@@ -15,7 +15,7 @@ pub fn print() -> std::io::Result<()> {
     let mut image_width: i32 = 1920;
     let mut image_height: i32 = (image_width as f32 / aspect_ratio).round() as i32;
     let mut samples_per_pixel: i32 = 500;
-    let mut max_depth: i32 = 50;
+    let max_depth: i32 = 50;
 
     //World setup
     let world: HitableList;

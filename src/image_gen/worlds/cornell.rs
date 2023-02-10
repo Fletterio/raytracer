@@ -74,7 +74,7 @@ pub fn cornell_box() -> HitableList {
         Arc::clone(&white),
     ));
     box2 = Arc::new(RotateY::new(box2, -18.0));
-    box1 = Arc::new(Translate::new(box2, Vec3::new(130.0, 0.0, 65.0)));
+    box2 = Arc::new(Translate::new(box2, Vec3::new(130.0, 0.0, 65.0)));
     objects.add(box2);
 
     objects

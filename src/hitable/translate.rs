@@ -25,7 +25,7 @@ impl Hitable for Translate {
             Some(rec) => {
                 let mut rec = rec;
                 rec.p += self.offset;
-                rec.set_face_normal(&moved_r, &rec.normal);
+                rec.set_face_normal(&moved_r, &rec.normal.clone());
                 Some(rec)
             }
             None => None,

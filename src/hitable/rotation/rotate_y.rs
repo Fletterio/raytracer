@@ -39,11 +39,11 @@ impl RotateY {
                 for k in 0..2 {
                     let ijk = f32x4::from_array([i as f32, j as f32, k as f32, 0.0]);
                     let comp_ijk = f32x4::splat(1.0) - ijk;
-                    let [x, y, z, _w] = (ijk * bbox_.max.e + comp_ijk * bbox_.min.e).as_array();
+                    let [x, y, z, _w] = *(ijk * bbox_.max.e + comp_ijk * bbox_.min.e).as_array();
                     let newx = cos_t * x + sin_t * z;
                     let newz = -sin_t * x + cos_t * z;
 
-                    let tester = f32x4::from_array([newx, *y, newz, 0.0]);
+                    let tester = f32x4::from_array([newx, y, newz, 0.0]);
 
                     min = min.simd_min(tester);
                     max = max.simd_max(tester);
@@ -92,8 +92,8 @@ impl Hitable for RotateY {
         let rec_p = rec.p.as_array();
         let rec_normal = rec.normal.as_array();
 
-        let p_ = rec_p;
-        let normal = rec_normal;
+        let mut p_ = rec_p;
+        let mut normal = rec_normal;
 
         p_[0] = self.cos_theta * rec_p[0] + self.sin_theta * rec_p[2];
         p_[2] = -self.sin_theta * rec_p[0] + self.cos_theta * rec_p[2];
