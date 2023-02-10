@@ -5,10 +5,9 @@ use crate::{
         hitable_list::HitableList,
         material::{diffuse_light::DiffuseLight, lambertian::Lambertian, Material},
         rectangles::*,
-        solid_box::SolidBox,
     },
     texture::image::ImageTexture,
-    vec3::{Color, Point3},
+    vec3::Color,
 };
 
 use std::fs::File;

@@ -2,8 +2,10 @@ pub mod hitable_list;
 pub mod material;
 pub mod moving_sphere;
 pub mod rectangles;
+pub mod rotation;
 pub mod solid_box;
 pub mod sphere;
+pub mod translate;
 
 use crate::aabb::AABB;
 use crate::rtweekend::{Point3, Ray, Vec3};

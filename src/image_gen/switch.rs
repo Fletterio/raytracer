@@ -72,10 +72,10 @@ pub fn print() -> std::io::Result<()> {
         }
         6 => {
             world = cornell_box();
-            image_height = 1920;
-            image_width = 1920;
+            image_height = 600;
+            image_width = 600;
             aspect_ratio = 1.0;
-            samples_per_pixel = 500;
+            samples_per_pixel = 200;
             background = Color::new(0.0, 0.0, 0.0);
             lookfrom = Point3::new(278.0, 278.0, -800.0);
             lookat = Point3::new(278.0, 278.0, 0.0);
@@ -83,7 +83,7 @@ pub fn print() -> std::io::Result<()> {
             out = "cornell";
         }
         7 | _ => {
-            world = mexico();
+            world = cornell_box();
             image_height = 1920;
             image_width = 1920;
             aspect_ratio = 1.0;
@@ -92,7 +92,7 @@ pub fn print() -> std::io::Result<()> {
             lookfrom = Point3::new(278.0, 278.0, -800.0);
             lookat = Point3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
-            out = "mexico";
+            out = "hd_cornell";
         }
     };
 

@@ -20,6 +20,12 @@ impl Vec3 {
             e: f32x4::from_array([e0, e1, e2, 0.0]),
         }
     }
+
+    pub fn from_array(a: [f32; 3]) -> Self {
+        Vec3 {
+            e: f32x4::from_array([a[0], a[1], a[2], 0.0]),
+        }
+    }
 }
 
 //getters
