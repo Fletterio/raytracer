@@ -6,6 +6,7 @@ pub mod rotation;
 pub mod solid_box;
 pub mod sphere;
 pub mod translate;
+pub mod volume;
 
 use crate::aabb::AABB;
 use crate::rtweekend::{Point3, Ray, Vec3};
