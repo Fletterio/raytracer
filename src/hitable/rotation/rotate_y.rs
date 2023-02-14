@@ -71,11 +71,11 @@ impl Hitable for RotateY {
         let mut origin = r_origin;
         let mut direction = r_direction;
 
-        origin[0] = self.cos_theta * r_origin[0] + self.sin_theta * r_origin[2];
-        origin[2] = -self.sin_theta * r_origin[0] + self.cos_theta * r_origin[2];
+        origin[0] = self.cos_theta * r_origin[0] - self.sin_theta * r_origin[2];
+        origin[2] = self.sin_theta * r_origin[0] + self.cos_theta * r_origin[2];
 
-        direction[0] = self.cos_theta * r_direction[0] + self.sin_theta * r_direction[2];
-        direction[2] = -self.sin_theta * r_direction[0] + self.cos_theta * r_direction[2];
+        direction[0] = self.cos_theta * r_direction[0] - self.sin_theta * r_direction[2];
+        direction[2] = self.sin_theta * r_direction[0] + self.cos_theta * r_direction[2];
 
         let rotated_r = Ray::new(
             Point3::from_array(origin),
