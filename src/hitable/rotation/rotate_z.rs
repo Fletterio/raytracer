@@ -33,17 +33,17 @@ impl RotateZ {
         let bbox_ = bbox_.unwrap();
 
         let mut min = f32x4::splat(f32::INFINITY);
-        let mut max = f32x4::splat(f32::INFINITY);
+        let mut max = f32x4::splat(-f32::INFINITY);
         for i in 0..2 {
             for j in 0..2 {
                 for k in 0..2 {
                     let ijk = f32x4::from_array([i as f32, j as f32, k as f32, 0.0]);
                     let comp_ijk = f32x4::splat(1.0) - ijk;
                     let [x, y, z, _w] = *(ijk * bbox_.max.e + comp_ijk * bbox_.min.e).as_array();
-                    let newx = cos_t * x + sin_t * z;
-                    let newz = -sin_t * x + cos_t * z;
+                    let newx = cos_t * x - sin_t * y;
+                    let newy = sin_t * x + cos_t * y;
 
-                    let tester = f32x4::from_array([newx, y, newz, 0.0]);
+                    let tester = f32x4::from_array([newx, newy, z, 0.0]);
 
                     min = min.simd_min(tester);
                     max = max.simd_max(tester);
@@ -71,11 +71,11 @@ impl Hitable for RotateZ {
         let mut origin = r_origin;
         let mut direction = r_direction;
 
-        origin[0] = self.cos_theta * r_origin[0] + self.sin_theta * r_origin[2];
-        origin[2] = -self.sin_theta * r_origin[0] + self.cos_theta * r_origin[2];
+        origin[0] = self.cos_theta * r_origin[0] + self.sin_theta * r_origin[1];
+        origin[1] = -self.sin_theta * r_origin[0] + self.cos_theta * r_origin[1];
 
-        direction[0] = self.cos_theta * r_direction[0] + self.sin_theta * r_direction[2];
-        direction[2] = -self.sin_theta * r_direction[0] + self.cos_theta * r_direction[2];
+        direction[0] = self.cos_theta * r_direction[0] + self.sin_theta * r_direction[1];
+        direction[1] = -self.sin_theta * r_direction[0] + self.cos_theta * r_direction[1];
 
         let rotated_r = Ray::new(
             Point3::from_array(origin),
@@ -95,11 +95,11 @@ impl Hitable for RotateZ {
         let mut p_ = rec_p;
         let mut normal = rec_normal;
 
-        p_[0] = self.cos_theta * rec_p[0] + self.sin_theta * rec_p[2];
-        p_[2] = -self.sin_theta * rec_p[0] + self.cos_theta * rec_p[2];
+        p_[0] = self.cos_theta * rec_p[0] - self.sin_theta * rec_p[1];
+        p_[1] = self.sin_theta * rec_p[0] + self.cos_theta * rec_p[1];
 
-        normal[0] = self.cos_theta * rec_normal[0] + self.sin_theta * rec_normal[2];
-        normal[2] = -self.sin_theta * rec_normal[0] + self.cos_theta * rec_normal[2];
+        normal[0] = self.cos_theta * rec_normal[0] - self.sin_theta * rec_normal[1];
+        normal[1] = self.sin_theta * rec_normal[0] + self.cos_theta * rec_normal[1];
 
         rec.p = Point3::from_array(p_);
         rec.set_face_normal(&rotated_r, &Point3::from_array(normal));

@@ -33,7 +33,7 @@ impl RotateY {
         let bbox_ = bbox_.unwrap();
 
         let mut min = f32x4::splat(f32::INFINITY);
-        let mut max = f32x4::splat(f32::INFINITY);
+        let mut max = f32x4::splat(-f32::INFINITY);
         for i in 0..2 {
             for j in 0..2 {
                 for k in 0..2 {
