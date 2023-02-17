@@ -97,9 +97,9 @@ pub fn print() -> std::io::Result<()> {
         8 | _ => {
             world = scene();
             aspect_ratio = 1.0;
-            image_height = 1920;
-            image_width = 1920;
-            samples_per_pixel = 10000;
+            image_height = 800;
+            image_width = 800;
+            samples_per_pixel = 100;
             background = Color::new(0.0, 0.0, 0.0);
             lookfrom = Point3::new(478.0, 278.0, -600.0);
             lookat = Point3::new(278.0, 278.0, 0.0);
