@@ -82,7 +82,7 @@ pub fn print() -> std::io::Result<()> {
             vfov = 40.0;
             out = "cornell";
         }
-        7 | _ => {
+        7 => {
             world = cornell_smoke();
             image_height = 600;
             image_width = 600;
@@ -93,6 +93,18 @@ pub fn print() -> std::io::Result<()> {
             lookat = Point3::new(278.0, 278.0, 0.0);
             vfov = 40.0;
             out = "cornell_smoke";
+        }
+        8 | _ => {
+            world = scene();
+            aspect_ratio = 1.0;
+            image_height = 1920;
+            image_width = 1920;
+            samples_per_pixel = 10000;
+            background = Color::new(0.0, 0.0, 0.0);
+            lookfrom = Point3::new(478.0, 278.0, -600.0);
+            lookat = Point3::new(278.0, 278.0, 0.0);
+            vfov = 40.0;
+            out = "final2_hd";
         }
     };
 
