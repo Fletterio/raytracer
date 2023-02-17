@@ -30,7 +30,7 @@ impl AABB {
             };
             tm = if t0 > tm { t0 } else { tm };
             tM = if t1 < tM { t1 } else { tM };
-            if tM < tm {
+            if tM <= tm {
                 return false;
             };
         }
@@ -43,7 +43,7 @@ impl AABB {
             e: box0.min.e.simd_min(box1.min.e),
         };
         let big = Point3 {
-            e: box0.max.e.simd_min(box1.max.e),
+            e: box0.max.e.simd_max(box1.max.e),
         };
 
         AABB {
