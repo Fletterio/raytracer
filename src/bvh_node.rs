@@ -42,7 +42,7 @@ impl BVHNode {
     pub fn new(src_objects: &[Arc<dyn Hitable>], time0: f32, time1: f32) -> Self {
         let object_span = src_objects.len();
         let mut objects = Vec::with_capacity(object_span);
-        objects.clone_from_slice(src_objects);
+        objects.extend_from_slice(src_objects);
         let axis = random_int(0, 2) as usize;
         let comparator = match axis {
             0 => box_x_compare,
