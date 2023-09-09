@@ -1,4 +1,5 @@
-//This module contains usual binary operations on Vectors (mostly addition/subtraction and indexing, product and division as implemented here are useful only for colour)
+// This module contains usual unary/binary operations on Vectors (mostly addition/subtraction and indexing,
+// product and division as implemented here are useful only for colour operations) and some other utility functions
 
 use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
@@ -6,7 +7,9 @@ use std::ops::{
 
 use super::*;
 
-//operators
+//-------------------------Operators-------------------------------------
+
+// negation
 impl Neg for Vec3 {
     type Output = Self;
 
@@ -16,6 +19,7 @@ impl Neg for Vec3 {
     }
 }
 
+// Probably not used much, just allows to access a vector like a tuple or array
 impl Index<usize> for Vec3 {
     type Output = f32;
 
@@ -25,6 +29,7 @@ impl Index<usize> for Vec3 {
     }
 }
 
+// Same as before but produces a mutable value
 impl IndexMut<usize> for Vec3 {
     #[inline]
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
@@ -32,6 +37,7 @@ impl IndexMut<usize> for Vec3 {
     }
 }
 
+// Vector addition
 impl Add for Vec3 {
     type Output = Self;
 
@@ -43,6 +49,7 @@ impl Add for Vec3 {
     }
 }
 
+//Same as before, with assignment
 impl AddAssign for Vec3 {
     #[inline]
     fn add_assign(&mut self, other: Self) {
@@ -50,6 +57,7 @@ impl AddAssign for Vec3 {
     }
 }
 
+// Vector subtraction
 impl Sub for Vec3 {
     type Output = Self;
 
@@ -61,6 +69,7 @@ impl Sub for Vec3 {
     }
 }
 
+// Same as before, with assignment
 impl SubAssign for Vec3 {
     #[inline]
     fn sub_assign(&mut self, other: Self) {
@@ -68,6 +77,7 @@ impl SubAssign for Vec3 {
     }
 }
 
+// Coordinate-wise multiplication
 impl Mul for Vec3 {
     type Output = Self;
 
@@ -79,6 +89,7 @@ impl Mul for Vec3 {
     }
 }
 
+// Same as before, with assignment
 impl MulAssign for Vec3 {
     #[inline]
     fn mul_assign(&mut self, other: Self) {
@@ -86,6 +97,7 @@ impl MulAssign for Vec3 {
     }
 }
 
+// Coordinate-wise division. Probably panics on division by zero
 impl Div for Vec3 {
     type Output = Self;
 
@@ -96,6 +108,7 @@ impl Div for Vec3 {
     }
 }
 
+// Same as before, with assignment
 impl DivAssign for Vec3 {
     #[inline]
     fn div_assign(&mut self, other: Self) {

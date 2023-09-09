@@ -4,6 +4,10 @@ use image::{load, ImageFormat, RgbImage};
 use std::fs::File;
 use std::io::BufReader;
 
+/*
+
+*/
+
 pub struct ImageTexture {
     image: Option<RgbImage>,
 }

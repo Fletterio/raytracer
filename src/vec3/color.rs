@@ -2,16 +2,24 @@ use super::Color;
 use crate::rtweekend::clamp;
 use std::fs::File;
 use std::io::prelude::*;
+use std::simd::f32x4;
+
+/*
+    The Color class is just a Vec3 class used for shading operations
+*/
 
 impl Color {
+    // The following funtion color-corrects and writes the color of a pixel to an output .ppm file
     pub fn write_color(&self, gamma: f32, samples: i32, f: &mut File) -> std::io::Result<()> {
         let self_as_array = self.as_array();
 
-        //Divide color by number of samples
+        // The color stored is actually the sum of 'samples' many samples. We average the samples to get the color for this pixel
         let scale = 1.0 / samples as f32;
-        //r = (scale * r).powf(gamma);
-        //g = (scale * g).powf(gamma);
-        //b = (scale * b).powf(gamma);
+
+        // The following code performs the same operations as this commented code below
+        // r = (scale * r).powf(gamma);
+        // g = (scale * g).powf(gamma);
+        // b = (scale * b).powf(gamma);
         let [r, g, b]: [f32; 3] = self_as_array
             .into_iter()
             .map(|x| (scale * x).powf(gamma))
@@ -19,7 +27,7 @@ impl Color {
             .try_into()
             .unwrap();
 
-        //Write
+        // Write to file as R8G8B8
 
         f.write_all(
             format!(
@@ -33,6 +41,9 @@ impl Color {
         Ok(())
     }
 
+    // Gamma correction
+    /////////////////////---------NOTE-------------/////////////
+    // This code remains unused
     #[inline]
     pub fn gamma_correct(&mut self, alpha: f32) {
         let self_as_array = self.as_array();
