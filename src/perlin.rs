@@ -1,5 +1,9 @@
 use crate::rtweekend::{random_int, Point3, Vec3};
 
+/*
+    The Perlin class stores a 3D Perlin noise. I omit details for Perlin noise generation in this file
+*/
+
 const POINT_COUNT: usize = 256;
 
 pub struct Perlin {
@@ -9,8 +13,9 @@ pub struct Perlin {
     pub perm_z: [usize; POINT_COUNT],
 }
 
-//constructors
+// Constructors
 impl Perlin {
+    // Perlin noise is regarded as a lattice of points with a permutation of the lattice and a random unit vector defined at each point.
     pub fn new() -> Self {
         let mut rv: [Vec3; POINT_COUNT] = [Vec3::new(0.0, 0.0, 0.0); POINT_COUNT];
         for v in rv.iter_mut() {
@@ -30,17 +35,13 @@ impl Perlin {
 }
 
 impl Perlin {
-    //generate noise
+    // Generate noise at a point p
     pub fn noise(&self, p: &Point3) -> f32 {
         let [x, y, z] = p.as_array();
 
         let u = x - x.floor();
         let v = y - y.floor();
         let w = z - z.floor();
-
-        /*let u = u * u * (3.0 - 2.0 * u); //Hermitian Smoothing
-        let v = v * v * (3.0 - 2.0 * v);
-        let w = w * w * (3.0 - 2.0 * w); */
 
         let i = x.floor() as i32;
         let j = y.floor() as i32;

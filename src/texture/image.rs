@@ -5,15 +5,16 @@ use std::fs::File;
 use std::io::BufReader;
 
 /*
-
+    The ImageTexture class implements a texture in the most common used version of the word: sampling from an image
 */
 
 pub struct ImageTexture {
     image: Option<RgbImage>,
 }
 
-//constructor
+// Constructor
 impl ImageTexture {
+    // The constructor requires a file to load the image from and the format it's stored in
     pub fn new(f: &File, format: ImageFormat) -> Self {
         let reader = BufReader::new(f);
 
@@ -30,7 +31,7 @@ impl ImageTexture {
     }
 }
 
-//IageTexture is a Texture
+// Implement the Texture trait so that we can sample it
 impl Texture for ImageTexture {
     fn value(&self, u: f32, v: f32, p: &Point3) -> Color {
         if self.image.is_none() {

@@ -6,6 +6,14 @@ use std::fs;
 use std::fs::File;
 use std::io::{stdout, Write};
 
+/*
+    This module handles all of the rendering
+*/
+
+// -------------------------- AUX functions --------------------------
+
+// The following function computes the color for a ray recursively: At each impact of the ray with an object it adds some color
+// and scatters the ray (where possible) to further add color, with some attenuation depending on the material
 pub fn ray_color(r: &Ray, background: &Color, world: &impl Hitable, depth: i32) -> Color {
     //if we exceed the number of bounces, don't add any Color
     if depth <= 0 {
@@ -13,8 +21,10 @@ pub fn ray_color(r: &Ray, background: &Color, world: &impl Hitable, depth: i32) 
     }
 
     match world.hit(r, DELTA, INFINITY) {
+        // If the ray hits something...
         Some(rec) => {
             let emitted = rec.material.emitted(rec.u, rec.v, &rec.p);
+            //if the material allows for scattering, scatter the ray. Otherwise just return the emitted color
             match rec.material.scatter(r, &rec) {
                 Some((attenuation, scattered)) => {
                     emitted + attenuation * ray_color(&scattered, &background, world, depth - 1)
@@ -22,31 +32,24 @@ pub fn ray_color(r: &Ray, background: &Color, world: &impl Hitable, depth: i32) 
                 None => emitted,
             }
         }
+        // If the ray doesn't hit anything, return a background color
         None => *background,
     }
-
-    /*if let Some(hit_record) = world.hit(r, DELTA, INFINITY) {
-        if let Some((attenuation, scattered)) = hit_record.material.scatter(r, &hit_record) {
-            return attenuation * ray_color(&scattered, world, depth - 1);
-        }
-        return Color::new(0.0, 0.0, 0.0);
-    }
-    let unit_direction = Vec3::normalize(r.direction);
-    let t = 0.5 * (unit_direction.y() + 1.0);
-    return (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0);*/
 }
 
+// ---------------------------------------- RENDERING -------------------------------------
+
 pub fn render(
-    width: i32,
-    height: i32,
-    samples: i32,
-    depth: i32,
-    world: &impl Hitable,
-    background: &Color,
-    cam: &Camera,
-    out: &str,
+    width: i32,           // viewport width
+    height: i32,          // viewport height
+    samples: i32,         // number of samples per pixel
+    depth: i32,           // how many times a ray is allowed to bounce
+    world: &impl Hitable, // description of the world scene
+    background: &Color,   // background color if a ray doesn't hit anything
+    cam: &Camera,         // camera used to render the scene
+    out: &str,            // name for the output .ppm file
 ) {
-    //Create folder, file, and add formatting info
+    // First we create a folder to store output images, the output file, and add formatting info
     fs::create_dir_all("images/").unwrap();
 
     let path = format!("{}{}{}", "images/", out, ".ppm");
@@ -55,12 +58,18 @@ pub fn render(
     file.write_all(format!("P3\n{} {}\n255\n", width, height).as_bytes())
         .unwrap();
 
+    // For each horizontal line
     for j in (0..height).rev() {
-        //show render progress on terminal
+        // Show render progress on terminal, indicating how many horizontal lines have been rendered
         print!("\rScanlines remaining: {}", j);
         stdout().flush();
 
         for i in 0..width {
+            // The following code is a bit murky. Basically we launch a concurrent thread for each sample for the pixel (i,j) using rayon.
+            // On each thread we create a slightly fuzzified ray emanating from the camera and hitting the viewport at pixel (i,j)
+            // (could also use a regular sampling scheme) and compute that ray's color.
+            // Then we accumulate the color obtained on each thread and use the helper function 'write_color' to write the color for the pixel
+            // to the output file.
             let pixel_color: Color = (0..samples)
                 .into_par_iter()
                 .map(|_| {
