@@ -7,12 +7,16 @@ pub mod operations;
 use crate::rtweekend::random_double_between;
 use std::fmt;
 
+/* 
+    The vec3 class represents a 3D vector using SIMD operations for optimized performance with common operations
+*/
+
 #[derive(Copy, Clone, PartialEq, Debug, Default)]
 pub struct Vec3 {
-    pub e: f32x4,
+    pub e: f32x4,     //__m128 if you're a cpp person
 }
 
-//constructors
+//constructors take the vector's coordinates as input
 impl Vec3 {
     #[inline]
     pub fn new(e0: f32, e1: f32, e2: f32) -> Self {
@@ -29,6 +33,7 @@ impl Vec3 {
 }
 
 //getters
+//WARNING: packed vectors like these are not meant to be read often. Keep the use of getters to a minimum!
 impl Vec3 {
     #[inline]
     pub fn x(&self) -> f32 {
@@ -53,22 +58,6 @@ impl Vec3 {
     #[inline]
     pub fn b(&self) -> f32 {
         self.e[2]
-    }
-}
-
-//colour functions
-impl Color {
-    #[inline]
-    pub fn gamma_correct(&mut self, alpha: f32) {
-        let self_as_array = self.as_array();
-        self.e = f32x4::from_array(
-            self_as_array
-                .into_iter()
-                .map(|x| x.powf(alpha))
-                .collect::<Vec<f32>>()
-                .try_into()
-                .unwrap(),
-        );
     }
 }
 
