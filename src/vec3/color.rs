@@ -32,4 +32,17 @@ impl Color {
         )?;
         Ok(())
     }
+
+    #[inline]
+    pub fn gamma_correct(&mut self, alpha: f32) {
+        let self_as_array = self.as_array();
+        self.e = f32x4::from_array(
+            self_as_array
+                .into_iter()
+                .map(|x| x.powf(alpha))
+                .collect::<Vec<f32>>()
+                .try_into()
+                .unwrap(),
+        );
+    }
 }
