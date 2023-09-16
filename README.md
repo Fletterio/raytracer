@@ -1,4 +1,4 @@
-# raytracercs
+# raytracer
 
 Very basic raytracer in Rust, following Peter Shirley's minibook series. SIMD-optimized to improve rendering times
 
