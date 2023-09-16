@@ -1,6 +1,9 @@
-# raytracer
-Wanted to teach myself Rust and at the same time I wanted to learn CG basics
+# raytracercs
 
-This is an implementation of a basic raytracer in Rust, following Peter Shirley's minibook series. 
+Very basic raytracer in Rust, following Peter Shirley's minibook series. SIMD-optimized to improve rendering times
 
-Update: Implemented SIMD. I haven't timed it but it should speed up rendering by 2x-2.5x since most operations can be vectorized (vector arithmetic, dot and cross products and scalar multiplications). 
+There's a few hardcoded scenarios. To toggle between them, go to src/image_gen/switch.rs and change the number in the match statement.
+
+To run, make sure you have [portable-simd](https://github.com/rust-lang/portable-simd/tree/master) support (when I made this you needed to run using the +nighly flag), then run the project *from the src directory* (path to texture files ended up hardcoded in a bad way).
+
+So in the src folder run `cargo +nightly run`
